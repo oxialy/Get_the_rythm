@@ -37,6 +37,12 @@ class Indicator:
         w, h = self.size
         pygame.draw.rect(win, self.col, (x, y, w, h))
 
+    def is_clicked(self, pos):
+        x,y = self.pos
+        w,h = self.size
+
+        return pygame.Rect((x,y,w,h)).collidepoint(pos)
+
 
 def centered_rect(rect):
     x,y,w,h = rect

@@ -53,6 +53,12 @@ def draw_screen(win):
     draw_test(win)
 
 
+def draw_screen_B(win):
+    write_text(win, 1, (130,80))
+
+
+
+
 def draw_elem(win, elements):
     for elem in elements:
         elem.draw(win)
@@ -63,7 +69,7 @@ def draw_note_diff(win, note_diff_list):
     pygame.draw.line(win, colors['grey1'], (70, y0), (280, y0), 2)
     pygame.draw.line(win, colors['grey1'], (x0, 150), (x0, 170), 1)
 
-    k = 150 / 120
+    k = 150 / 12
 
     for time in note_diff_list[-7:]:
         A = x0 + time / 3, 150

@@ -1,10 +1,11 @@
+from src import drawing_functions as DF
 from src import game_functions as GF
 from src import game_variables as GV
 
 from src import settings as sett
 from src.settings import WIDTH, HEIGHT, clock, FPS
 
-from src.drawing_functions import draw_screen
+from src.drawing_functions import draw_screen, draw_screen_B
 from src.game_variables import TOM_A
 from src.settings import BPM
 
@@ -23,7 +24,35 @@ def init_userevent():
     #pygame.time.set_timer(GV.PLAYER_BEAT, 1000)
 
 
-def main():
+def main_menu(win):
+
+    run_main = True
+
+    while run_main:
+
+        DF.draw_screen_B(win)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_main = False
+            if event.type == pygame.KEYDOWN:
+                if event.key in [K_q, K_ESCAPE]:
+                    run_main = False
+
+                if event.key == K_SPACE:
+                    pass
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+
+        if pygame.mouse.get_pressed()[0]:
+            pos = pygame.mouse.get_pos()
+
+        pygame.display.update()
+        clock.tick(FPS)
+
+
+def main(win):
 
     init_userevent()
 
@@ -31,7 +60,7 @@ def main():
 
     while run_main:
 
-        draw_screen(WIN)
+        draw_screen(win)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -96,6 +125,7 @@ def main():
                 if GV.ON_BEAT:
                     GV.on_beat_time = t
                     pygame.draw.rect(WIN, 'seagreen2', (70,200,15,15))
+
                 if GV.player_timings:
                     GV.last_note_diff = GF.compare_two_timings(GV.player_timings[-1], GV.on_beat_time, BPM)
                     if GV.last_note_diff:
@@ -121,11 +151,13 @@ def main():
         print(t2)
 
 
-    pygame.quit()
+# Start game loop
+
+main_menu(WIN)
+
+if False:
+    main(WIN)
 
 
-
-main()
-
-
+pygame.quit()
 

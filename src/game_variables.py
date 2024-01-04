@@ -33,8 +33,10 @@ R2 = original_rythm = Rhythm()
 #R2.timings = timing1
 
 
+
 metronome_indic = msc.Indicator((WIDTH - 80, HEIGHT - 120), (30,30))
 bg_color_indic = msc.Indicator((0,0), (10,10), DV.bg_color, DV.gradient)
+
 
 note_diff_list = [500,500,500,500,500]
 
@@ -51,10 +53,10 @@ TEST_COMPLETE = False
 METRONOME_BEAT = pygame.USEREVENT
 METRONOME_HALF_BEAT = pygame.USEREVENT + 1
 
-questions = [
-    {'title': 1, 'answers': [1,2,3]},
-    {'title': 2, 'answers': [1,2,3]},
-    {'title': 3, 'answers': [1,2,3]}
-]
+
+
+
+
+
 
 
