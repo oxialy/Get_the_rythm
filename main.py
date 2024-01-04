@@ -6,6 +6,7 @@ from src.settings import WIDTH, HEIGHT, clock, FPS
 
 from src.drawing_functions import draw_screen
 from src.game_variables import TOM_A
+from src.settings import BPM
 
 import pygame
 import random
@@ -18,6 +19,7 @@ WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 def init_userevent():
     pygame.time.set_timer(GV.METRONOME_BEAT, 1000)
+    pygame.time.set_timer(GV.METRONOME_HALF_BEAT, 500)
     #pygame.time.set_timer(GV.PLAYER_BEAT, 1000)
 
 
@@ -42,14 +44,10 @@ def main():
                     init_userevent()
 
                 if event.key == K_BACKSPACE:
-                    GV.R1.convert_timing_to_note_value()
-                    GV.R2.convert_timing_to_note_value()
-
-                    print('')
-                    GF.compare_rhythms(GV.R1.timings, GV.R2.timings)
-
-                    pygame.time.set_timer(GV.METRONOME_BEAT, 0)
-                    pygame.time.set_timer(GV.PLAYER_BEAT, 0)
+                    if GV.CONTINUE:
+                        GV.TEST_COMPLETE = True
+                    else:
+                        GV.bg_color_indic.timer = 0
 
                 if event.key in [K_f, K_j]:
                     t = pygame.time.get_ticks()
@@ -72,7 +70,7 @@ def main():
 
                 if event.key == K_RETURN:
                     timings2 = GF.synchronized(GV.player_timings)
-                    GF.compare_rhythms(timings2, GV.timing1)
+                    GF.compare_rhythms(timings2, GV.timings1)
                     GV.player_timings.clear()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -86,24 +84,42 @@ def main():
                 GV.R2.timings.append(t)
                 print('otime', t)
 
-            if event.type == GV.PLAYER_BEAT:
-                t = pygame.time.get_ticks()
-                GV.R1.timings.append(t)
+                if len(GV.R2.timings) >= 5 and len(GV.player_timings) >= 5:
+                    GV.average_diff = GF.get_average_diff(GV.player_timings, GV.R2.timings, BPM)
 
-                print(t)
+                    GV.CONTINUE = abs(GV.average_diff) < 80
+
+            if event.type == GV.METRONOME_HALF_BEAT:
+                GV.ON_BEAT = not GV.ON_BEAT
+                t = pygame.time.get_ticks()
+
+                if GV.ON_BEAT:
+                    GV.on_beat_time = t
+                    pygame.draw.rect(WIN, 'seagreen2', (70,200,15,15))
+                if GV.player_timings:
+                    GV.last_note_diff = GF.compare_two_timings(GV.player_timings[-1], GV.on_beat_time, BPM)
+                    if GV.last_note_diff:
+                        GV.note_diff_list.append(GV.last_note_diff)
 
         if pygame.mouse.get_pressed()[0]:
             pos = pygame.mouse.get_pos()
 
         GV.metronome_indic.timer += 1
+        GV.bg_color_indic.timer += 1
 
         pygame.display.update()
         clock.tick(FPS)
 
     GV.R2.convert_timing_to_note_value()
     GV.R1.convert_timing_to_note_value()
+
     print(GV.R2.timings)
     print(GV.R2.notes)
+
+    for t in GV.R2.timings:
+        t2 = round(t / 1000, 1)
+        print(t2)
+
 
     pygame.quit()
 

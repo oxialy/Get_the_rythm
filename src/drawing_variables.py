@@ -5,6 +5,25 @@ from .settings import WIDTH, HEIGHT
 import pygame
 
 
+def get_gradient(colA, colB, n=14):
+    r1, g1, b1 = colA
+    r2, g2, b2 = colB
+
+    k_r = (r2 - r1) / n
+    k_g = (g2 - g1) / n
+    k_b = (b2 - b1) / n
+
+    gradient = []
+
+    for i in range(n):
+        r = int(r1 + i * k_r)
+        g = int(g1 + i * k_g)
+        b = int(b1 + i * k_b)
+
+        gradient.append((r, g, b))
+
+    return gradient
+
 
 colors = {
     'blue1': '#102080',
@@ -21,6 +40,7 @@ colors = {
     'lightgrey1': '#aaaaaa',
     'darkgrey1': '#404040',
     'grey1': '#707070',
+    'grey2': '#999999',
     'red1': '#A01010',
     'purple1': '#901080',
     'black1': '#000000'
@@ -38,8 +58,14 @@ colB = {
     'black1': '#242424'
 }
 
+col1 = 35, 10, 40
+col2 = 16, 22, 47
 
-gradient = [(r,g,b) for r,g,b in zip(range(250), range(250), range(250))]
+gradient = get_gradient(col1, col2, 25)
+
+col3 = 120, 10, 10
+col4 = 10, 120, 10
+g2 = get_gradient(col4, col3, 12)
 
 bg_color = '#101530'
 

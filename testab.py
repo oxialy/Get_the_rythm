@@ -1,11 +1,10 @@
 from src.rhythm import Rhythm
 
-a = 2
+a = [1, 2, 3]
 
-b = 5
+b = 3
 
-c = a
+print(a[-20:])
 
-c += 1
-
-print(a, b, c)
+for i in range(20):
+    print(a[-i:])

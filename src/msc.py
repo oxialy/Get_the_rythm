@@ -21,13 +21,16 @@ FONT40 = pygame.font.SysFont('arial', 40)
 
 
 class Indicator:
-    def __init__(self, pos, size):
+    def __init__(self, pos, size, default=None, values=None):
         self.pos = pos
         self.size = size
 
         self.col = colors['orange1']
 
-        self.timer = 0
+        self.default = default
+        self.values = values
+
+        self.timer = 100
 
     def draw(self, win):
         x, y = self.pos

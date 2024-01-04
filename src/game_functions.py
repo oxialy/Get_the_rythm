@@ -55,7 +55,7 @@ def compare_rhythms(timings_a, timings_b):
         t1 = timings_a[i]
         t2 = timings_b[j]
 
-        diff = t2 - t1
+        diff = t1 - t2
 
         if t1 <= t2 - tolerance_2:
             points = 0
@@ -74,6 +74,37 @@ def compare_rhythms(timings_a, timings_b):
     for comp in result:
         print(comp['diff'], comp['points'])
     print(total, result)
+
+    return result
+
+def get_average_diff(timings_a, timings_b, BPM):
+    i = -5
+    j = -5
+
+    tol = 1000 * 60 / (BPM * 2)     # half beat in MS
+    diff_list = []
+
+    if timings_a[i] < timings_b[j] - tol:
+        i += 1
+    elif timings_a[i] > timings_b[j] + tol:
+        j += 1
+
+    for t1, t2 in zip(timings_a[i:], timings_b[j:]):
+        diff_list.append((t1 - t2))
+
+    n = len(diff_list)
+    s = sum(diff_list)
+
+    return s / n
+
+
+def compare_two_timings(t1, t2, BPM):
+    tol = 1000 * 60 / BPM / 2
+
+    if t1 < t2 - tol:
+        return None
+    else:
+        return t1 - t2
 
 
 def synchronized(timings):
