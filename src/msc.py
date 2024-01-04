@@ -1,7 +1,7 @@
 from src import settings as sett
 
 from .drawing_variables import colors
-
+from .settings import WIDTH, HEIGHT, FONT15, FONT20, FONT25, FONT12, FONT22, FONT10
 
 
 import pygame
@@ -21,27 +21,50 @@ FONT40 = pygame.font.SysFont('arial', 40)
 
 
 class Indicator:
-    def __init__(self, pos, size, default=None, values=None):
+    def __init__(self, pos, size, text=None, default=None, values=None):
         self.pos = pos
         self.size = size
 
-        self.col = colors['orange1']
+        self.col = colors['purple1']
+
+        self.text = text
 
         self.default = default
         self.values = values
 
+        self.HOVERED = False
         self.timer = 100
 
     def draw(self, win):
         x, y = self.pos
         w, h = self.size
-        pygame.draw.rect(win, self.col, (x, y, w, h))
+
+        rect = centered_rect((x,y,w,h))
+
+        pygame.draw.rect(win, self.col, rect)
+
+        if self.HOVERED:
+            pygame.draw.rect(win, colors['grey1'], rect, 3)
+
+        if self.text:
+            write_text(win, self.text, self.pos, center=True)
 
     def is_clicked(self, pos):
         x,y = self.pos
         w,h = self.size
 
-        return pygame.Rect((x,y,w,h)).collidepoint(pos)
+        rect = centered_rect((x,y,w,h))
+
+        return pygame.Rect(rect).collidepoint(pos)
+
+
+def check_hovered(pos, buttons):
+    for button in buttons:
+        if button.is_clicked(pos):
+            #button.HOVERED = True
+            return button
+        else:
+            pass
 
 
 def centered_rect(rect):
@@ -52,62 +75,28 @@ def centered_rect(rect):
 
     return pygame.Rect((x,y,w,h))
 
-def get_dist(A, B):
-    x1, y1 = A
-    x2, y2 = B
 
-    return sqrt((x2 - x1)**2 + (y2 - y1)**2)
+def write_text(win, data, pos, col=colors['grey1'], font=FONT20, center=False, resize_limit=0):
+    #font = pygame.font.SysFont('arial', 30)
 
-def get_angle(A, B):
-    x1, y1 = A
-    x2, y2 = B
+    text_surf = font.render(str(data), 1, col)
+    size = text_surf.get_size()
 
-    return atan2((y2-y1), (x2-x1))
+    if resize_limit != 0 and size[0] > resize_limit:
+        text_surf = sett.FONT15.render(str(data), 1, col)
+        size = text_surf.get_size()
 
+    if center:
+        x = pos[0] - size[0] // 2
+        y = pos[1] - size[1] // 2
+    else:
+        x, y = pos
 
-def get_point_from_angle(pos, angle, dist):
-    x1, y1 = pos
-
-    a = sin(angle) / cos(angle)
-
-    x2 = x1 + cos(angle) * dist
-    y2 = y1 + sin(angle) * dist
-
-    return x2, y2
+    win.blit(text_surf, (x,y))
 
 
-def get_average_point(A, B):
-    x1, y1 = A
-    x2, y2 = B
-
-    return (x1 + x2) / 2, (y1 + y2) /2
 
 
-def get_tail_resting_pos(body):
-    tail = body[-1]
-    left_link = tail.left_link
-    rad = tail.size[0]
-
-    force = get_force(tail.pos, left_link.pos, rad)
-
-
-def get_force(A, B, rad, force_factor=30, min_force=0):
-    dist = get_dist(A, B)
-    angle = get_angle(A, B)
-
-    force_x = cos(angle) * (dist - rad + min_force) / force_factor
-    force_y = sin(angle) * (dist - rad + min_force) / force_factor
-
-    force_x = min(1.5, force_x)
-    force_y = min(1.7, force_y)
-
-    return Vector2(force_x, force_y)
-
-
-def write_text(win, data, pos, col='grey'):
-    text_surf = sett.FONT20.render(str(data), 1, col)
-
-    win.blit(text_surf, pos)
 
 def add_log(logs, data):
     if data not in logs:

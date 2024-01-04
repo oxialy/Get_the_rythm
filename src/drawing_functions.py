@@ -2,7 +2,6 @@
 from src import settings as sett
 from src import game_variables as GV
 from src import drawing_variables as dv
-from src import msc, logs
 
 from .drawing_variables import bg_color, colors
 from .settings import WIDTH, HEIGHT, FONT15, FONT20, FONT25, FONT12, FONT22, FONT10
@@ -54,8 +53,11 @@ def draw_screen(win):
 
 
 def draw_screen_B(win):
-    write_text(win, 1, (130,80))
+    win.fill(bg_color)
+    write_text(win, 1, (160,60))
 
+    GV.option_A1.draw(win)
+    GV.option_A2.draw(win)
 
 
 

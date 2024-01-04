@@ -12,31 +12,8 @@ from math import sqrt, cos, sin
 from random import randrange, choice, shuffle
 
 
-
-def center_rect(rect):
-    x, y, w, h = rect
-
-    x2 = x - w//2
-    y2 = y - h//2
-    new_rect = pygame.Rect(x2, y2, w, h)
-
-    return new_rect
-
-
-def get_dist(A, B):
-    x1, y1 = A
-    x2, y2 = B
-
-    return sqrt((x2-x1)**2 + (y2-y1)**2)
-
-def get_point_from_angle(pos, dist, angle):
-    x1, y1 = pos
-
-    x2 = x1 + cos(angle) * dist
-    y2 = y1 + sin(angle) * dist
-
-    return x2, y2
-
+def update_hovered(buttons, pos):
+    pass
 
 def compare_rhythms(timings_a, timings_b):
     result = []
@@ -76,6 +53,7 @@ def compare_rhythms(timings_a, timings_b):
     print(total, result)
 
     return result
+
 
 def get_average_diff(timings_a, timings_b, BPM):
     i = -5

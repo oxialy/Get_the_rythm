@@ -1,6 +1,7 @@
 from src import drawing_functions as DF
 from src import game_functions as GF
 from src import game_variables as GV
+from src import msc
 
 from src import settings as sett
 from src.settings import WIDTH, HEIGHT, clock, FPS
@@ -28,9 +29,49 @@ def main_menu(win):
 
     run_main = True
 
-    while run_main:
+    while not GV.CHOSEN_OPTION:
 
         DF.draw_screen_B(win)
+
+        GV.pos = pygame.mouse.get_pos()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_main = False
+            if event.type == pygame.KEYDOWN:
+                if event.key in [K_q, K_ESCAPE]:
+                    run_main = False
+
+                if event.key == K_SPACE:
+                    print(GV.pos)
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+
+        if pygame.mouse.get_pressed()[0]:
+            GV.hovered_button = msc.check_hovered(GV.pos, GV.buttons_A)
+            if GV.hovered_button:
+                GV.CHOSEN_OPTION = GV.hovered_button.text
+
+        if GV.hovered_button:
+            GV.hovered_button.HOVERED = False
+
+        GV.hovered_button = msc.check_hovered(GV.pos, GV.buttons_A)
+
+        if GV.hovered_button:
+            GV.hovered_button.HOVERED = True
+
+        pygame.display.update()
+        clock.tick(FPS)
+
+
+def editor(win):
+
+    run_main = True
+
+    while run_main:
+
+        draw_screen(WIN)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -154,6 +195,8 @@ def main(win):
 # Start game loop
 
 main_menu(WIN)
+
+print(GV.CHOSEN_OPTION)
 
 if False:
     main(WIN)

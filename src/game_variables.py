@@ -14,6 +14,9 @@ pygame.mixer.init()
 
 TOM_A = pygame.mixer.Sound('C:/Users/jingl/Documents/GitHub/Get_the_rythm/sound_effects/tom.wav')
 
+CHOSEN_OPTION = None
+
+pos = 0, 0
 
 NOTES_VALUES = {
     2: 2000,
@@ -33,9 +36,12 @@ R2 = original_rythm = Rhythm()
 #R2.timings = timing1
 
 
-
+option_A1 = msc.Indicator((160, 135), (80,30), 'editor')
+option_A2 = msc.Indicator((160, 180), (80,30), 'game')
 metronome_indic = msc.Indicator((WIDTH - 80, HEIGHT - 120), (30,30))
 bg_color_indic = msc.Indicator((0,0), (10,10), DV.bg_color, DV.gradient)
+
+buttons_A = [option_A1, option_A2]
 
 
 note_diff_list = [500,500,500,500,500]
@@ -43,6 +49,8 @@ note_diff_list = [500,500,500,500,500]
 average_diff = 500
 last_note_diff = 500
 on_beat_time = 0
+
+hovered_button = None
 
 ON_BEAT = True
 
