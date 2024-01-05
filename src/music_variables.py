@@ -1,6 +1,14 @@
+
+from src import loading as load
+
+import os
 import pygame
 
 pygame.mixer.init()
+
+
+TOM_A = load.load_sound('tom.wav')
+NOTIF_2 = load.load_sound('notif2.wav')
 
 
 channel_1 = pygame.mixer.Channel(1)

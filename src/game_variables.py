@@ -10,11 +10,6 @@ from .rhythm import Rhythm
 
 import pygame
 
-pygame.mixer.init()
-
-
-TOM_A = pygame.mixer.Sound('C:/Users/jingl/Documents/GitHub/Get_the_rythm/sound_effects/tom.wav')
-NOTIF_2 = pygame.mixer.Sound('C:/Users/jingl/Documents/GitHub/Get_the_rythm/sound_effects/notif2.wav')
 
 CHOSEN_OPTION = None
 

@@ -1,9 +1,16 @@
 from src.rhythm import Rhythm
 
 import os
+import pprint
 
 main_dir = os.path.split(os.path.abspath(__file__))
 
 print(main_dir)
 
 print(os.path.abspath(__file__))
+
+pp = pprint.PrettyPrinter()
+
+a = ['%SystemDrive%', 'api-ms-win-core-console-l1-1-0.dll', 'api-ms-win-core-datetime-l1-1-0.dll', 'api-ms-win-core-debug-l1-1-0.dll', 'api-ms-win-core-errorhandling-l1-1-0.dll', 'api-ms-win-core-file-l1-1-0.dll', 'api-ms-win-core-file-l1-2-0.dll', 'api-ms-win-core-file-l2-1-0.dll', 'api-ms-win-core-handle-l1-1-0.dll', 'api-ms-win-core-heap-l1-1-0.dll', 'api-ms-win-core-interlocked-l1-1-0.dll', 'api-ms-win-core-libraryloader-l1-1-0.dll', 'api-ms-win-core-localization-l1-2-0.dll', 'api-ms-win-core-memory-l1-1-0.dll', 'api-ms-win-core-namedpipe-l1-1-0.dll', 'api-ms-win-core-processenvironment-l1-1-0.dll', 'api-ms-win-core-processthreads-l1-1-0.dll', 'api-ms-win-core-processthreads-l1-1-1.dll', 'api-ms-win-core-profile-l1-1-0.dll', 'api-ms-win-core-rtlsupport-l1-1-0.dll', 'api-ms-win-core-string-l1-1-0.dll', 'api-ms-win-core-synch-l1-1-0.dll', 'api-ms-win-core-synch-l1-2-0.dll', 'api-ms-win-core-sysinfo-l1-1-0.dll', 'api-ms-win-core-timezone-l1-1-0.dll', 'api-ms-win-core-util-l1-1-0.dll', 'api-ms-win-crt-conio-l1-1-0.dll', 'api-ms-win-crt-convert-l1-1-0.dll', 'api-ms-win-crt-environment-l1-1-0.dll', 'api-ms-win-crt-filesystem-l1-1-0.dll', 'api-ms-win-crt-heap-l1-1-0.dll', 'api-ms-win-crt-locale-l1-1-0.dll', 'api-ms-win-crt-math-l1-1-0.dll', 'api-ms-win-crt-multibyte-l1-1-0.dll', 'api-ms-win-crt-private-l1-1-0.dll', 'api-ms-win-crt-process-l1-1-0.dll', 'api-ms-win-crt-runtime-l1-1-0.dll', 'api-ms-win-crt-stdio-l1-1-0.dll', 'api-ms-win-crt-string-l1-1-0.dll', 'api-ms-win-crt-time-l1-1-0.dll', 'api-ms-win-crt-utility-l1-1-0.dll', 'attach.dll', 'awt.dll', 'chrome_elf.dll', 'd3dcompiler_47.dll', 'dt_shmem.dll', 'dt_socket.dll', 'fontmanager.dll', 'freetype.dll', 'gluegen_rt.dll', 'icudtl.dat', 'instrument.dll', 'j2gss.dll', 'j2pcsc.dll', 'j2pkcs11.dll', 'jaas.dll', 'jabswitch.exe', 'jaccessinspector.exe', 'jaccesswalker.exe', 'java.dll', 'java.exe', 'javaaccessbridge.dll', 'javac.exe', 'javadoc.exe', 'javajpeg.dll', 'javaw.exe', 'jawt.dll', 'jcef.dll', 'jceftesthelpers.dll', 'jcef_helper.exe', 'jcmd.exe', 'jdb.exe', 'jdwp.dll', 'jfr.exe', 'jhsdb.exe', 'jimage.dll', 'jinfo.exe', 'jli.dll', 'jmap.exe', 'jogl_desktop.dll', 'jogl_mobile.dll', 'jps.exe', 'jrunscript.exe', 'jsound.dll', 'jstack.exe', 'jstat.exe', 'keytool.exe', 'kinit.exe', 'klist.exe', 'ktab.exe', 'lcms.dll', 'le.dll', 'libcef.dll', 'libEGL.dll', 'libGLESv2.dll', 'management.dll', 'management_agent.dll', 'management_ext.dll', 'mlib_image.dll', 'msvcp140.dll', 'nativewindow_awt.dll', 'nativewindow_win32.dll', 'net.dll', 'newt_head.dll', 'nio.dll', 'prefs.dll', 'rmi.dll', 'rmiregistry.exe', 'saproc.dll', 'serialver.exe', 'server', 'snapshot_blob.bin', 'splashscreen.dll', 'sspi_bridge.dll', 'sunmscapi.dll', 'swiftshader', 'ucrtbase.dll', 'v8_context_snapshot.bin', 'vcruntime140.dll', 'vcruntime140_1.dll', 'verify.dll', 'vk_swiftshader.dll', 'vulkan-1.dll', 'w2k_lsa_auth.dll', 'windowsaccessbridge-64.dll', 'zip.dll']
+
+pp.pprint(a)

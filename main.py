@@ -1,3 +1,5 @@
+import os.path
+
 from src import drawing_functions as DF
 from src import game_functions as GF
 from src import game_variables as GV
@@ -8,7 +10,7 @@ from src import settings as sett
 from src.settings import WIDTH, HEIGHT, clock, FPS
 
 from src.drawing_functions import draw_screen, draw_screen_b
-from src.game_variables import TOM_A, NOTIF_2
+from src.music_variables import TOM_A, NOTIF_2
 from src.music_variables import channel_1, channel_2
 from src.settings import BPM
 
