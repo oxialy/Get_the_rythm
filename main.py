@@ -4,12 +4,13 @@ from src import drawing_functions as DF
 from src import game_functions as GF
 from src import game_variables as GV
 from src import music_variables as MV
+from src import rhythm_patterns as rhy
 from src import msc
 
 from src import settings as sett
-from src.settings import WIDTH, HEIGHT, clock, FPS
+from src.settings import WIDTH, HEIGHT, clock, FPS, WIN
 
-from src.drawing_functions import draw_screen, draw_screen_b
+from src.drawing_functions import draw_screen, draw_screen_b, draw_screen_c
 from src.music_variables import TOM_A, NOTIF_2
 from src.music_variables import channel_1, channel_2
 from src.settings import BPM
@@ -20,8 +21,6 @@ import random
 from pygame.locals import *
 from random import randrange, choice
 
-
-WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 def init_userevent():
     pygame.time.set_timer(GV.METRONOME_BEAT, 1000)
@@ -71,8 +70,14 @@ def main_menu(win):
                 if event.key in [K_q, K_ESCAPE]:
                     run_main = False
 
-                if event.key == K_SPACE:
+                if event.key == K_1:
                     GV.CHOSEN_OPTION = 'record'
+
+                if event.key == K_2:
+                    GV.CHOSEN_OPTION = 'calibrate'
+
+                if event.key == K_3:
+                    GV.CHOSEN_OPTION = 'game'
 
                 if event.key == K_a:
                     print(win.get_size())
@@ -94,7 +99,7 @@ def main_menu(win):
             GV.hovered_button.HOVERED = True
 
         if GV.CHOSEN_OPTION:
-            if GV.CHOSEN_OPTION in ['record', 'game', 'quit']:
+            if GV.CHOSEN_OPTION in ['record', 'calibrate', 'game', 'quit']:
                 run_main = False
 
         pygame.display.update()
@@ -109,7 +114,7 @@ def recorder(win):
 
     while run_main:
 
-        draw_screen_b(WIN)
+        draw_screen_b(win)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -167,7 +172,8 @@ def recorder(win):
 
     stop_userevent()
 
-def main(win):
+
+def calibrate(win):
 
     init_userevent()
 
@@ -239,7 +245,7 @@ def main(win):
 
                 if GV.ON_BEAT:
                     GV.on_beat_time = t
-                    pygame.draw.rect(WIN, 'seagreen2', (70,200,15,15))
+                    pygame.draw.rect(win, 'seagreen2', (70,200,15,15))
 
                 if GV.player_timings:
                     GV.last_note_diff = GF.compare_two_timings(GV.player_timings[-1], GV.on_beat_time, BPM)
@@ -255,15 +261,88 @@ def main(win):
         pygame.display.update()
         clock.tick(FPS)
 
-    GV.R2.convert_timing_to_note_value()
-    GV.R1.convert_timing_to_note_value()
 
-    print(GV.R2.timings)
-    print(GV.R2.notes)
+def game(win):
 
-    for t in GV.R2.timings:
-        t2 = round(t / 1000, 1)
-        print(t2)
+    init_userevent()
+
+    run_main = True
+
+    channel_1.play(TOM_A)
+    start_time = pygame.time.get_ticks()
+
+    while run_main:
+
+        draw_screen_c(win)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run_main = False
+            if event.type == pygame.KEYDOWN:
+                if event.key in [K_q, K_ESCAPE]:
+                    run_main = False
+
+                if event.key == K_SPACE:
+                    init_userevent()
+
+                if event.key == K_BACKSPACE:
+                    if GV.CONTINUE:
+                        GV.TEST_COMPLETE = True
+                    else:
+                        GV.bg_color_indic.timer = 0
+
+                if event.key in [K_f, K_j]:
+                    t = pygame.time.get_ticks()
+                    GV.player_timings.append(t)
+
+                if event.key == K_RETURN:
+                    timings2 = GF.synchronized(GV.player_timings)
+                    GF.compare_rhythms(timings2, GV.timings1)
+                    GV.player_timings.clear()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                pass
+
+            if event.type == GV.METRONOME_BEAT:
+                GV.current_beat += 1
+                t = pygame.time.get_ticks()
+
+                GV.metronome_indic.timer = 0
+
+                GV.R2.timings.append(t)
+                print('otime', t)
+
+                if len(GV.R2.timings) >= 5 and len(GV.player_timings) >= 5:
+                    GV.average_diff = GF.get_average_diff(GV.player_timings, GV.R2.timings, BPM)
+
+                    GV.CONTINUE = abs(GV.average_diff) < 80
+
+                if GV.current_beat == 9:
+                    i = GV.current_sequence
+                    pattern = rhy.patterns[i]['timings']
+
+                    result, total = GF.sequence_end(GV.R1, pattern)
+                    print(total, result)
+                    print('max', 100 * len(pattern))
+
+                    if total == result:
+                        channel_1.play(NOTIF_2)
+
+
+                    GV.R1.timings.clear()
+                    GV.current_beat = 1
+                    GV.current_sequence += 1
+
+                channel_1.play(TOM_A)
+
+        if pygame.mouse.get_pressed()[0]:
+            pos = pygame.mouse.get_pos()
+
+        GV.metronome_indic.timer += 1
+        GV.bg_color_indic.timer += 1
+
+        pygame.display.update()
+        clock.tick(FPS)
 
 
 # Start game loop
@@ -275,9 +354,11 @@ print(GV.CHOSEN_OPTION)
 if GV.CHOSEN_OPTION == 'record':
     recorder(WIN)
 
-if GV.CHOSEN_OPTION == 'game':
-    main(WIN)
+if GV.CHOSEN_OPTION == 'calibrate':
+    calibrate(WIN)
 
+if GV.CHOSEN_OPTION == 'game':
+    game(WIN)
 
 pygame.quit()
 

@@ -4,6 +4,7 @@ from src import game_variables as GV
 from src import drawing_variables as dv
 
 from .drawing_variables import bg_color, colors
+from .visuals import all_scores
 from .settings import WIDTH, HEIGHT, FONT15, FONT20, FONT25, FONT12, FONT22, FONT10
 
 
@@ -58,6 +59,7 @@ def draw_screen_a(win):
 
     GV.option_A1.draw(win)
     GV.option_A2.draw(win)
+    GV.option_A3.draw(win)
 
     draw_test_a(win)
 
@@ -67,15 +69,24 @@ def draw_screen_b(win):
     write_text(win, 2, (160,60))
 
 
+def draw_screen_c(win):
+    current_score, score_rect = all_scores[GV.current_sequence]
+
+    win.fill(bg_color)
+
+    write_text(win, 3, (160,60))
+    win.blit(current_score, (60,60))
+
 def draw_test_a(win):
     s = pygame.Surface((30,30))
     pos = s.get_rect(center=(WIDTH/2, HEIGHT/2))
     win.blit(s, pos)
 
 
-def draw_elem(win, elements):
-    for elem in elements:
-        elem.draw(win)
+def draw_image(win, image, pos):
+    rect = image.get_rect(center=pos)
+    win.blit(image, rect)
+
 
 def draw_note_diff(win, note_diff_list):
     center = x0, y0 = 180, 160

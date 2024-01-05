@@ -48,9 +48,8 @@ def compare_rhythms(timings_a, timings_b):
 
     for comp in result:
         print(comp['diff'], comp['points'])
-    print(total, result)
 
-    return result
+    return result, total
 
 
 def get_average_diff(timings_a, timings_b, BPM):
@@ -91,6 +90,19 @@ def synchronized(timings):
         new_timings.append(t - t1)
 
     return new_timings
+
+
+def sequence_end(player, pattern, BPM=60):
+    player.convert_timing_to_note_value()
+    print(player.notes)
+    print(pattern)
+
+    return compare_rhythms(player.notes, pattern)
+
+
+
+
+
 
 
 

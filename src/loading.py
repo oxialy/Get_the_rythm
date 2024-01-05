@@ -4,6 +4,7 @@ from src.settings import main_dir, image_dir, sound_dir
 import os
 import pygame
 
+pygame.display.init()
 
 def load_image(name, colorkey=1, scale=1):
 
@@ -32,15 +33,15 @@ def load_sound(name):
     return sound
 
 
-def load_all_pattern_scores():
-    all_pattern_scores = []
+def load_all_scores():
+    all_scores = []
     file_names = os.listdir(image_dir)
 
     for name in file_names:
         image = load_image(name)
-        all_pattern_scores.append(image)
+        all_scores.append(image)
 
-    return all_pattern_scores
+    return all_scores
 
 
 

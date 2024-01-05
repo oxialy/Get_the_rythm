@@ -1,7 +1,9 @@
 import os
 import pygame
 
+pygame.display.init()
 pygame.font.init()
+
 
 src_dir = os.path.split(os.path.abspath(__file__))[0]
 main_dir = os.path.split(src_dir)[0]
@@ -10,6 +12,8 @@ sound_dir = os.path.join(main_dir, 'sound_effects')
 
 
 WIDTH, HEIGHT = 350, 350
+
+WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 FPS = 60
 BPM = 60
