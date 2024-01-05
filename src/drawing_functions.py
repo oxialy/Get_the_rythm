@@ -52,13 +52,25 @@ def draw_screen(win):
     draw_test(win)
 
 
-def draw_screen_B(win):
+def draw_screen_a(win):
     win.fill(bg_color)
     write_text(win, 1, (160,60))
 
     GV.option_A1.draw(win)
     GV.option_A2.draw(win)
 
+    draw_test_a(win)
+
+
+def draw_screen_b(win):
+    win.fill(bg_color)
+    write_text(win, 2, (160,60))
+
+
+def draw_test_a(win):
+    s = pygame.Surface((30,30))
+    pos = s.get_rect(center=(WIDTH/2, HEIGHT/2))
+    win.blit(s, pos)
 
 
 def draw_elem(win, elements):

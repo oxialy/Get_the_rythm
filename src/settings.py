@@ -1,10 +1,15 @@
+import os
 import pygame
 
 pygame.font.init()
 
+main_dir = os.path.split(os.path.abspath(__file__))[0]
+data_dir = os.path.join(main_dir, 'images')
+
+
 WIDTH, HEIGHT = 350, 350
 
-FPS = 30
+FPS = 60
 BPM = 60
 
 clock = pygame.time.Clock()

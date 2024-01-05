@@ -1,10 +1,9 @@
 from src.rhythm import Rhythm
 
-a = [1, 2, 3]
+import os
 
-b = 3
+main_dir = os.path.split(os.path.abspath(__file__))
 
-print(a[-20:])
+print(main_dir)
 
-for i in range(20):
-    print(a[-i:])
+print(os.path.abspath(__file__))

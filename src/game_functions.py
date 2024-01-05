@@ -12,8 +12,6 @@ from math import sqrt, cos, sin
 from random import randrange, choice, shuffle
 
 
-def update_hovered(buttons, pos):
-    pass
 
 def compare_rhythms(timings_a, timings_b):
     result = []

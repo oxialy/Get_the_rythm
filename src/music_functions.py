@@ -1,12 +1,11 @@
 import pygame
 
+pygame.mixer.init()
 
 
-colors = {
-    'blue1': '#102080'
-}
+def mute_all():
+    pass
 
-bg_color = '#151515'
 
 
 

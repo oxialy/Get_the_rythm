@@ -1,12 +1,14 @@
 import pygame
 
+pygame.mixer.init()
 
 
-colors = {
-    'blue1': '#102080'
-}
+channel_1 = pygame.mixer.Channel(1)
+channel_2 = pygame.mixer.Channel(1)
 
-bg_color = '#151515'
+
+
+
 
 
 
