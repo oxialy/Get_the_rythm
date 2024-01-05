@@ -94,8 +94,8 @@ def synchronized(timings):
 
 def sequence_end(player, pattern, BPM=60):
     player.convert_timing_to_note_value()
-    print(player.notes)
-    print(pattern)
+    print('eval player', player.notes)
+    print('pattern', pattern)
 
     return compare_rhythms(player.notes, pattern)
 

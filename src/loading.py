@@ -36,6 +36,7 @@ def load_sound(name):
 def load_all_scores():
     all_scores = []
     file_names = os.listdir(image_dir)
+    print(file_names)
 
     for name in file_names:
         image = load_image(name)
@@ -43,8 +44,19 @@ def load_all_scores():
 
     return all_scores
 
+def rename_all_scores():
+    file_names = os.listdir(image_dir)
+
+    for name in file_names:
+        new_name = 'pattern0' + name[-6:]
+        fullname = os.path.join(image_dir, name)
+        new_fullname = os.path.join(image_dir, new_name)
+
+        os.rename(fullname, new_fullname)
 
 
+if __name__ == '__main__':
+    rename_all_scores()
 
 
 

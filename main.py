@@ -293,7 +293,7 @@ def game(win):
 
                 if event.key in [K_f, K_j]:
                     t = pygame.time.get_ticks()
-                    GV.player_timings.append(t)
+                    GV.R1.timings.append(t)
 
                 if event.key == K_RETURN:
                     timings2 = GF.synchronized(GV.player_timings)
@@ -323,15 +323,16 @@ def game(win):
 
                     result, total = GF.sequence_end(GV.R1, pattern)
                     print(total, result)
-                    print('max', 100 * len(pattern))
+                    print('max', 100 * len(pattern), i)
 
-                    if total == result:
-                        channel_1.play(NOTIF_2)
-
+                    if total == 100 * len(pattern):
+                        channel_2.play(NOTIF_2)
+                        print('gg')
 
                     GV.R1.timings.clear()
                     GV.current_beat = 1
                     GV.current_sequence += 1
+                    GV.current_sequence = randrange(15)
 
                 channel_1.play(TOM_A)
 

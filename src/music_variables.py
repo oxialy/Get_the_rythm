@@ -12,7 +12,7 @@ NOTIF_2 = load.load_sound('notif2.wav')
 
 
 channel_1 = pygame.mixer.Channel(1)
-channel_2 = pygame.mixer.Channel(1)
+channel_2 = pygame.mixer.Channel(2)
 
 
 

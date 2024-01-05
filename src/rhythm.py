@@ -38,6 +38,15 @@ def adjust_to_true_note_value(values, tol):
     return new_values
 
 
+def adjust_value_to_bpm(values, bpm):
+    new_values = []
+
+    for val in values:
+        pass
+
+
+
+
 
 
 

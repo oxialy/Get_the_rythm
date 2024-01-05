@@ -25,6 +25,8 @@ pattern_timings = [
     [500, 750, 500, 250, 250, 250, 250]
 ]
 
+
+
 patterns = [{'timings': u, 'score': v} for u,v in zip(pattern_timings, all_scores)]
 
 

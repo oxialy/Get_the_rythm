@@ -9,6 +9,9 @@ from .rhythm import Rhythm
 
 
 import pygame
+import random
+
+from random import randrange
 
 
 CHOSEN_OPTION = None
@@ -23,6 +26,7 @@ NOTES_VALUES = {
 
 current_beat = 1
 current_sequence = 0
+current_sequence = randrange(15)
 
 timing1 = [0, 1000, 2000, 3000]
 timings1 = [1000 * x for x in range(20)]
