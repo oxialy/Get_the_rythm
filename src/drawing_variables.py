@@ -31,6 +31,7 @@ colors = {
     'lightblue1': '#3858AA',
     'cyan1': '#207080',
     'seagreen1': '#106040',
+    'seagreen2': '#085740',
     'green1': '#107720',
     'green2': '#22A038',
     'orange1': '#806020',

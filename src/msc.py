@@ -21,7 +21,7 @@ FONT40 = pygame.font.SysFont('arial', 40)
 
 
 class Indicator:
-    def __init__(self, pos, size, col, text=None, default=None, values=None):
+    def __init__(self, pos, size, col, text=None, font=FONT20, default=None, values=None):
         self.pos = pos
         self.size = size
 
@@ -31,6 +31,7 @@ class Indicator:
 
         self.text = text
         self.text_col = colors['lightgrey1']
+        self.font = font
 
         self.default = default
         self.values = values
@@ -52,9 +53,7 @@ class Indicator:
         if self.HOVERED:
             self.draw_hovered(win)
         if self.text:
-            write_text(win, self.text, self.pos, self.text_col, center=True)
-        if self.value_2:
-            self.draw_hovered_value(win)
+            write_text(win, self.text, self.pos, self.text_col, self.font, True)
 
     def draw_hovered(self, win):
         x, y = self.pos
@@ -64,9 +63,12 @@ class Indicator:
 
         pygame.draw.rect(win, colors['grey1'], rect, 3)
 
+        if self.value_2:
+            self.draw_hovered_value(win)
+
     def draw_hovered_value(self, win):
-        x, y = self.pos[0] + 70, self.pos[1]
-        w, h = 22,22
+        x, y = self.pos[0] - 70, self.pos[1]
+        w, h = 18,18
 
         rect = centered_rect((x,y,w,h))
         pygame.draw.rect(win, colors['grey1'], rect)

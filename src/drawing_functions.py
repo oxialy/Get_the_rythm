@@ -69,6 +69,7 @@ def draw_screen_a(win):
     GV.OPTION_A1.draw(win)
     GV.OPTION_A2.draw(win)
     GV.OPTION_A3.draw(win)
+    GV.OPTION_A4.draw(win)
 
     #draw_test_a(win)
 
@@ -82,6 +83,12 @@ def draw_screen_b(win):
 
     GV.CONFIRM_BUTTON.draw(win)
     GV.SAVE_BUTTON.draw(win)
+
+    draw_metronome(win)
+
+    if GV.metronome_indic.timer < 58 and True:
+        GV.metronome_indic.draw(win)
+
 
 
 def draw_screen_d(win):
@@ -113,6 +120,24 @@ def draw_screen_d(win):
     pygame.draw.rect(win, 'orange3', (time // 17 - 80, cy - 80, 4,125))
 
     draw_test_c(dv.BACKGROUND)
+
+def draw_screen_e(win):
+    cx, cy = (WIDTH / 2, HEIGHT / 2)
+    win.fill(bg_color)
+
+    win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
+
+    GV.BORDER_1.draw(win)
+    #GV.BORDER_2.draw(win)
+
+    write_text(win, "level", (cx, 30), 'black', center=True)
+
+    GV.OPTION_E1.draw(win)
+    GV.OPTION_E2.draw(win)
+    GV.OPTION_E3.draw(win)
+
+    #draw_test_a(win)
+
 
 def draw_test_a(win):
     s = pygame.Surface((30,30))

@@ -44,8 +44,6 @@ sequences_0 = [{'rhythm': ryt, 'score': score, 'max_points': max} for ryt, score
 #sequences = shuffle_sequences(sequences_0)
 sequences = sequences_0.copy()
 
-print(1, sequences)
-print(2, sequences[0])
 
 
 '''

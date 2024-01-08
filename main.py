@@ -24,6 +24,7 @@ from pygame.locals import *
 from random import randrange, choice
 
 
+# need separate directory  v
 def init_userevent():
     pygame.time.set_timer(GV.METRONOME_BEAT, 1000)
     pygame.time.set_timer(GV.METRONOME_HALF_BEAT, 500)
@@ -46,16 +47,36 @@ def mute_all():
     channel_2.set_volume(0)
 
 
-def unmute_all():
+def reset_volume():
     channel_1.set_volume(0.3)
     channel_2.set_volume(0.3)
 
 
+def volume_up():
+    channel_1.set_volume(1)
+    channel_2.set_volume(1)
+
+# need separate directory  ^
+
+def reset_game_values():
+    GV.player_score = 0
+    GV.sequence_score = 0
+    GV.current_timing = 0
+    GV.current_sequence = 0
+    GV.current_half_beat = 1
+
+
+def reset_sequence():
+    GV.BORDER_1.size = (195, 22)
+
+    GV.sequence_score = 0
+    GV.current_timing = 0
+    GV.current_sequence += 1
+    GV.current_half_beat = 1
+    GV.start_time = pygame.time.get_ticks()
+
+
 def main_menu(win):
-
-    init_sound()
-
-    channel_1.play(NOTIF_2)
 
     run_main = True
 
@@ -67,10 +88,20 @@ def main_menu(win):
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                run_main = False
+                GV.CHOSEN_OPTION = 'quit'
+
             if event.type == pygame.KEYDOWN:
                 if event.key in [K_q, K_ESCAPE]:
-                    run_main = False
+                    GV.CHOSEN_OPTION = 'quit'
+
+                if event.key == K_m:
+                    mute_all()
+
+                if event.key == K_i:
+                    reset_volume()
+
+                if event.key == K_s:
+                    volume_up()
 
                 if event.key == K_1:
                     GV.CHOSEN_OPTION = 'record'
@@ -86,6 +117,7 @@ def main_menu(win):
                     print(win.get_size())
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                channel_1.play(NOTIF_2)
                 GV.hovered_button = msc.check_hovered(GV.pos, GV.buttons_A)
                 if GV.hovered_button:
                     GV.CHOSEN_OPTION = GV.hovered_button.text
@@ -106,6 +138,75 @@ def main_menu(win):
         if GV.CHOSEN_OPTION:
             if GV.CHOSEN_OPTION in ['record', 'calibrate', 'game', 'quit'] and GV.BORDER_1.timer >= 68:
                 run_main = False
+
+        pygame.display.update()
+        clock.tick(FPS)
+
+
+def level_menu(win):
+
+    run_main = True
+
+    while run_main:
+
+        DF.draw_screen_e(win)
+
+        GV.pos = pygame.mouse.get_pos()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                GV.CHOSEN_OPTION = 'quit'
+
+            if event.type == pygame.KEYDOWN:
+                if event.key in [K_q, K_ESCAPE]:
+                    GV.CHOSEN_OPTION = 'back'
+
+                if event.key == K_m:
+                    mute_all()
+
+                if event.key == K_i:
+                    reset_volume()
+
+                if event.key == K_s:
+                    volume_up()
+
+                if event.key == K_1:
+                    GV.CHOSEN_OPTION = '1'
+
+                if event.key == K_2:
+                    GV.CHOSEN_OPTION = '2'
+
+                if event.key == K_3:
+                    GV.CHOSEN_OPTION = '3'
+                    GV.BORDER_1.timer = 0
+
+                if event.key == K_a:
+                    print(win.get_size())
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                channel_1.play(NOTIF_2)
+                GV.hovered_button = msc.check_hovered(GV.pos, GV.buttons_E)
+                if GV.hovered_button:
+                    GV.CHOSEN_OPTION = GV.hovered_button.text
+                    if GV.CHOSEN_OPTION == 'game':
+                        GV.BORDER_1.timer = 0
+
+        if GV.hovered_button:
+            GV.hovered_button.HOVERED = False
+
+        GV.hovered_button = msc.check_hovered(GV.pos, GV.buttons_E)
+
+        if GV.hovered_button:
+            GV.hovered_button.HOVERED = True
+
+        if GV.CHOSEN_OPTION in ['1', '2', '3', 'back', 'quit']:
+            if GV.CHOSEN_OPTION == '1':
+                pass
+            if GV.CHOSEN_OPTION == '2':
+                GV.current_sequence = 7
+            if GV.CHOSEN_OPTION == '3':
+                GV.current_sequence = 14
+            run_main = False
 
         pygame.display.update()
         clock.tick(FPS)
@@ -148,8 +249,11 @@ def recorder(win):
                 if event.key == K_m:
                     mute_all()
 
-                if event.key == K_n:
-                    unmute_all()
+                if event.key == K_i:
+                    reset_volume()
+
+                if event.key == K_s:
+                    volume_up()
 
                 if event.key == K_BACKSPACE:
                     GV.saved_values.pop(-1)
@@ -186,6 +290,7 @@ def recorder(win):
             if event.type == GV.METRONOME_BEAT:
                 t = pygame.time.get_ticks()
                 GV.metronome_indic.timer = 0
+                GV.metronome_indic.update_metronome()
                 channel_1.play(TOM_A)
 
                 GV.R2.timings.append(t)
@@ -221,6 +326,15 @@ def calibrate(win):
             if event.type == pygame.KEYDOWN:
                 if event.key in [K_q, K_ESCAPE]:
                     run_main = False
+
+                if event.key == K_m:
+                    mute_all()
+
+                if event.key == K_i:
+                    reset_volume()
+
+                if event.key == K_s:
+                    volume_up()
 
                 if event.key == K_SPACE:
                     init_userevent()
@@ -313,6 +427,15 @@ def game(win):
             if event.type == pygame.KEYDOWN:
                 if event.key in [K_q, K_ESCAPE]:
                     run_main = False
+
+                if event.key == K_m:
+                    mute_all()
+
+                if event.key == K_i:
+                    reset_volume()
+
+                if event.key == K_s:
+                    volume_up()
 
                 if event.key == K_SPACE:
                     print(22)
@@ -408,22 +531,43 @@ def game(win):
         pygame.display.update()
         clock.tick(FPS)
 
+
+def main(win):
+    init_sound()
+
+    channel_1.play(NOTIF_2)
+
+    run_main = True
+
+    while run_main:
+
+        main_menu(win)
+
+        if GV.CHOSEN_OPTION == 'record':
+            recorder(win)
+
+        if GV.CHOSEN_OPTION == 'calibrate':
+            calibrate(win)
+
+        if GV.CHOSEN_OPTION == 'game':
+            GV.CHOSEN_OPTION = None
+            level_menu(win)
+
+            if GV.CHOSEN_OPTION not in ['back', 'quit']:
+                game(win)
+
+        if GV.CHOSEN_OPTION == 'quit':
+            run_main = False
+
+
+        GV.CHOSEN_OPTION = None
+
+    pygame.quit()
+
+
 logs.data = logs.load_data(logs.DATA_FILE)
 
-# Start game loop
+print('\nSound control:\nmute: M   reset volume: I   volume up: S')
 
-main_menu(WIN)
-
-print(GV.CHOSEN_OPTION)
-
-if GV.CHOSEN_OPTION == 'record':
-    recorder(WIN)
-
-if GV.CHOSEN_OPTION == 'calibrate':
-    calibrate(WIN)
-
-if GV.CHOSEN_OPTION == 'game':
-    game(WIN)
-
-pygame.quit()
+main(WIN)
 

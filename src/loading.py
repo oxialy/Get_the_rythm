@@ -36,7 +36,6 @@ def load_sound(name):
 def load_all_scores():
     all_scores = []
     file_names = os.listdir(image_dir)
-    print(file_names)
 
     for name in file_names:
         image = load_image(name, -1, 1.2)

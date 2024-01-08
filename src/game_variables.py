@@ -50,22 +50,38 @@ R2 = original_rhythm = Rhythm([], [])
 
 all_player_timings = []
 
+'''
+OPTION_A1 = msc.Indicator((cx, cy - 65), (80,30), colors['purple1'], 'record')
+OPTION_A2 = msc.Indicator((cx, cy - 20), (80,30), colors['purple1'], 'calibrate')
+OPTION_A3 = msc.Indicator((cx, cy + 25), (80,30), colors['purple1'], 'game')
+OPTION_A4 = msc.Indicator((cx, cy + 70), (80,30), colors['purple1'], 'quit')'''
 
-OPTION_A1 = msc.Indicator((cx, cy - 30), (80,30), colors['purple1'], 'record')
-OPTION_A2 = msc.Indicator((cx, cy + 15), (80,30), colors['purple1'], 'calibrate')
-OPTION_A3 = msc.Indicator((cx, cy + 55), (80,30), colors['purple1'], 'game')
+OPTION_A1 = msc.Indicator((cx, cy - 65), (80,29), colors['purple1'], 'record')
+OPTION_A2 = msc.Indicator((cx, cy - 26), (80,29), colors['purple1'], 'calibrate')
+OPTION_A3 = msc.Indicator((cx, cy + 13), (80,29), colors['purple1'], 'game')
+OPTION_A4 = msc.Indicator((cx, cy + 52), (80,29), colors['purple1'], 'quit')
+
+OPTION_A1.value_2 = 1
+OPTION_A2.value_2 = 2
+OPTION_A3.value_2 = 3
+
+
+OPTION_E1 = msc.Indicator((cx, cy - 40), (80,28), colors['seagreen2'], '1')
+OPTION_E2 = msc.Indicator((cx, cy +  3), (80,28), colors['seagreen2'], '2')
+OPTION_E3 = msc.Indicator((cx, cy + 46), (80,28), colors['seagreen2'], '3')
+
+buttons_A = [OPTION_A1, OPTION_A2, OPTION_A3, OPTION_A4]
+buttons_E = [OPTION_E1, OPTION_E2, OPTION_E3]
 
 SAVE_BUTTON = msc.Indicator((40,40), (30,30), colors['orange1'], '1')
 CONFIRM_BUTTON = msc.Indicator((cx, cy - 10), (100,30), colors['purple1'], 'confirm')
 
-BORDER_1 = msc.Indicator((cx, 0), (230,22), colors['purple1'])
+BORDER_1 = msc.Indicator((cx, 0), (195,21), colors['purple1'])
 BORDER_2 = msc.Indicator((cx, HEIGHT-6), (0,12), colors['purple1'])
 
 metronome_indic = msc.Indicator((cx - 30, HEIGHT - 60), (8,8), colors['purple1'], values=[0,1,2,3])
-bg_color_indic = msc.Indicator((0,0), (10,10), None, DV.bg_color, DV.gradient)
+bg_color_indic = msc.Indicator((0,0), (10,10), None, default=DV.bg_color, values=DV.gradient)
 
-
-buttons_A = [OPTION_A1, OPTION_A2, OPTION_A3]
 
 
 note_diff_list = [500,500,500,500,500]
