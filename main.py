@@ -6,12 +6,13 @@ from src import game_variables as GV
 from src import music_variables as MV
 from src import rhythm_patterns as rhy
 from src import animation as anim
+from src import logs
 from src import msc
 
 from src import settings as sett
 from src.settings import WIDTH, HEIGHT, clock, FPS, WIN
 
-from src.drawing_functions import draw_screen, draw_screen_b, draw_screen_c
+from src.drawing_functions import draw_screen, draw_screen_b, draw_screen_d
 from src.music_variables import TOM_A, TOM_B, NOTIF_2
 from src.music_variables import channel_1, channel_2
 from src.settings import BPM
@@ -127,10 +128,22 @@ def recorder(win):
                 if event.key in [K_q, K_ESCAPE]:
                     run_main = False
 
-                if event.key in [K_f, K_j]:
-                    t = pygame.time.get_ticks()
+                if event.key in [K_1, K_2, K_3]:
+                    MAP = {K_1: 1, K_2: 2, K_3: 3}
 
+                    n = MAP[event.key]
+                    GV.SAVE_BUTTON.text = str(n)
+                    GV.SAVE_BUTTON.pos = (10 + 30 * n, 40)
+
+                    GV.chosen_save = n
+
+                if event.key in [K_f]:
+                    t = pygame.time.get_ticks()
                     GV.R1.timings.append(t)
+
+                if event.key == [K_j]:
+                    t = pygame.time.get_ticks()
+                    GV.R1.timings.append(-t)
 
                 if event.key == K_m:
                     mute_all()
@@ -138,13 +151,28 @@ def recorder(win):
                 if event.key == K_n:
                     unmute_all()
 
+                if event.key == K_BACKSPACE:
+                    GV.saved_values.pop(-1)
+
                 if event.key == K_SPACE:
-                    pass
+                    if GV.SAVE_MODE:
+                        print(62, 'saved')
+                        logs.save_timing_values(logs.DATA_FILE, GV.saved_values, GV.chosen_save)
+                        GV.saved_values.clear()
+
+                    GV.SAVE_MODE = not GV.SAVE_MODE
+                    GV.SAVE_BUTTON.toggle_color()
+                    print(61, 'space', GV.SAVE_BUTTON.col, GV.SAVE_BUTTON.STATE)
 
                 if event.key == K_RETURN:
                     GV.R1.convert_timing_to_value()
+
                     values = GV.R1.true_values(70)
-                    print(values)
+                    GV.saved_values.append(values)
+
+                    logs.save_timing_values(logs.DATA_FILE, GV.saved_values, 0)  # autosave
+
+                    print('recorded list', GV.saved_values)
 
                     for val in values:
                         if not val:
@@ -277,7 +305,7 @@ def game(win):
 
     while run_main:
         GV.time = pygame.time.get_ticks()
-        draw_screen_c(win)
+        draw_screen_d(win)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -287,7 +315,11 @@ def game(win):
                     run_main = False
 
                 if event.key == K_SPACE:
-                    init_userevent()
+                    print(22)
+
+                if event.key == K_8:
+                    GV.current_sequence = 6
+                    GV.current_disp_sequence = 6
 
                 if event.key == K_BACKSPACE:
                     if GV.CONTINUE:
@@ -297,7 +329,23 @@ def game(win):
 
                 if event.key in [K_f, K_j]:
                     t = pygame.time.get_ticks()
+                    timings = rhy.sequences[GV.current_sequence]['rhythm'].timings
+
                     GV.R1.timings.append(t)
+
+                    if timings[GV.current_timing] < 0:
+                        GV.current_timing += 1
+
+                    diff = abs(t - GV.start_time - timings[GV.current_timing])
+                    points = GF.eval_diff(diff)
+
+                    print(31, t - GV.start_time - timings[GV.current_timing])
+                    print(32, timings, GV.current_timing, len(timings))
+
+                    if points:
+                        GV.sequence_score += points
+                        GV.player_score += points
+                        GV.current_timing += 1
 
                 if event.key == K_RETURN:
                     timings2 = GF.synchronized(GV.player_timings)
@@ -314,11 +362,10 @@ def game(win):
                 GV.metronome_indic.update_metronome()
 
                 GV.R2.timings.append(t)
-                print('otime', t, end=' ')
 
                 if GV.current_beat == 8:
                     GV.current_beat = 0
-                    GV.current_sequence += 1
+                    GV.current_disp_sequence += 1
 
                     print('current seq', GV.current_sequence)
 
@@ -331,10 +378,25 @@ def game(win):
                     channel_1.play(TOM_A)
 
             if event.type == GV.METRONOME_HALF_BEAT:
-
                 GV.current_half_beat += 1
-                pygame.draw.rect(win, 'grey', (20,20,7,7))
+                pygame.draw.rect(win, '#606099', (20,20,10,10))
 
+                if GV.current_half_beat == 16:
+                    seq = rhy.sequences[GV.current_sequence]
+
+                    if GV.sequence_score == seq['max_points']:
+                        channel_2.play(NOTIF_2)
+                        print('gg')
+
+                if GV.current_half_beat == 17:
+                    GV.all_player_timings.append(GV.R1.timings)
+                    GV.R1.timings.clear()
+
+                    GV.sequence_score = 0
+                    GV.current_timing = 0
+                    GV.current_sequence += 1
+                    GV.current_half_beat = 1
+                    GV.start_time = pygame.time.get_ticks()
 
 
         if pygame.mouse.get_pressed()[0]:
@@ -346,10 +408,10 @@ def game(win):
         pygame.display.update()
         clock.tick(FPS)
 
+logs.data = logs.load_data(logs.DATA_FILE)
 
 # Start game loop
 
-print(21, GV.R1.timings)
 main_menu(WIN)
 
 print(GV.CHOSEN_OPTION)

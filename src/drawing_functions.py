@@ -64,11 +64,11 @@ def draw_screen_a(win):
     GV.BORDER_1.draw(win)
     #GV.BORDER_2.draw(win)
 
-    write_text(win, 1, (cx, 40), 'black')
+    write_text(win, 1, (cx, 60), 'black', center=True)
 
-    GV.option_A1.draw(win)
-    GV.option_A2.draw(win)
-    GV.option_A3.draw(win)
+    GV.OPTION_A1.draw(win)
+    GV.OPTION_A2.draw(win)
+    GV.OPTION_A3.draw(win)
 
     #draw_test_a(win)
 
@@ -78,38 +78,51 @@ def draw_screen_b(win):
     win.fill(bg_color)
     win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
 
-    write_text(win, 2, (cx, 40), 'black')
+    write_text(win, 'record', (cx, 60), 'black', center=True)
+
+    GV.CONFIRM_BUTTON.draw(win)
+    GV.SAVE_BUTTON.draw(win)
 
 
-def draw_screen_c(win):
+def draw_screen_d(win):
     cx, cy = (WIDTH / 2, HEIGHT / 2)
+
     score_pos = (cx, cy - 10)
-    current_score, score_rect = rp.sequences[GV.current_sequence]['score']
+    current_score, score_rect = rp.sequences[GV.current_disp_sequence]['score']
     score_rect = current_score.get_rect(center=score_pos)
 
     time = GV.time - GV.start_time
 
     win.fill(bg_color)
+
     win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
+    dv.BACKGROUND.fill(dv.bg_color_2)
 
     GV.BORDER_1.draw(win)
     #GV.BORDER_2.draw(win)
 
-    write_text(win, 3, (cx, 60), 'black')
+    write_text(win, 3, (cx, 60), 'black', center=True)
     win.blit(current_score, score_rect)
     #pygame.draw.rect(win, colors['black1'], score_rect, 2)
 
     draw_metronome(win)
 
-    if GV.metronome_indic.timer < 10 and True:
+    if GV.metronome_indic.timer < 58 and True:
         GV.metronome_indic.draw(win)
 
     pygame.draw.rect(win, 'orange3', (time // 17 - 80, cy - 80, 4,125))
+
+    draw_test_c(dv.BACKGROUND)
 
 def draw_test_a(win):
     s = pygame.Surface((30,30))
     pos = s.get_rect(center=(WIDTH/2, HEIGHT/2))
     win.blit(s, pos)
+
+
+def draw_test_c(win):
+    write_text(win, GV.current_timing, (80, 55), '#404070')
+    write_text(win, GV.player_score, (125, 55), '#405060')
 
 
 def draw_image(win, image, pos):

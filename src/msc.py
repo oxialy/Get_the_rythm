@@ -26,13 +26,17 @@ class Indicator:
         self.size = size
 
         self.col = col
+        self.col1 = col
+        self.col2 = colors['red2']
 
         self.text = text
         self.text_col = colors['lightgrey1']
 
         self.default = default
         self.values = values
+        self.value_2 = None
 
+        self.STATE = 0
         self.HOVERED = False
         self.timer = 100
         self.i = 0
@@ -49,6 +53,8 @@ class Indicator:
             self.draw_hovered(win)
         if self.text:
             write_text(win, self.text, self.pos, self.text_col, center=True)
+        if self.value_2:
+            self.draw_hovered_value(win)
 
     def draw_hovered(self, win):
         x, y = self.pos
@@ -57,6 +63,14 @@ class Indicator:
         rect = centered_rect((x,y,w,h))
 
         pygame.draw.rect(win, colors['grey1'], rect, 3)
+
+    def draw_hovered_value(self, win):
+        x, y = self.pos[0] + 70, self.pos[1]
+        w, h = 22,22
+
+        rect = centered_rect((x,y,w,h))
+        pygame.draw.rect(win, colors['grey1'], rect)
+        write_text(win, self.value_2, (x,y), 'black', FONT15, True)
 
     def update_metronome(self):
         self.pos = WIDTH/2 - 30 + self.i * 20, self.pos[1]
@@ -75,8 +89,15 @@ class Indicator:
 
         self.size = self.size[0] + increase_x, self.size[1] + increase_y
 
-    def update_rect(self):
+    def update_text(self):
         pass
+
+    def toggle_color(self):
+        self.STATE = not self.STATE
+        if self.STATE:
+            self.col = self.col2
+        else:
+            self.col = self.col1
 
     def is_clicked(self, pos):
         x,y = self.pos

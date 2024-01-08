@@ -19,8 +19,8 @@ def compare_rhythms(timings_a, timings_b):
     i = 0
     j = 0
 
-    tolerance_1 = 40
-    tolerance_2 = 110
+    tolerance_1 = sett.tolerance_1
+    tolerance_2 = sett.tolerance_2
 
     bonus = 0
     malus = 0
@@ -100,7 +100,18 @@ def sequence_end(player, pattern, BPM=60):
     return compare_rhythms(player.values, pattern)
 
 
+def eval_diff(diff):
+    tolerance_1 = sett.tolerance_1
+    tolerance_2 = sett.tolerance_2
 
+    if diff < tolerance_1:
+        points = 100
+    elif diff < tolerance_2:
+        points = 1
+    else:
+        points = 0
+
+    return points
 
 
 

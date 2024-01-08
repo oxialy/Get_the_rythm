@@ -13,15 +13,13 @@ print(os.path.abspath(__file__))
 pp = pprint.PrettyPrinter()
 
 
-a = 'abcde'
-b = list(a)
-c = b
+a = 0
 
-rd.shuffle(c)
+b = [1,2,3]
 
-print(c)
+b.pop(-1)
 
-
+print(b)
 
 
 

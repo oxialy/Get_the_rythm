@@ -1,6 +1,11 @@
+import os
 import json
+from src.settings import main_dir, data_dir
 
 LOG_FILE = 'log.json'
+DATA_FILE = os.path.join(data_dir, 'data.json')
+
+data = {}
 
 def init_log(filepath):
     data = load_data(filepath)
@@ -56,6 +61,13 @@ def get_current_log(filepath):
     log_key = key_list[-1]
 
     return data[log_key]
+
+
+def save_timing_values(filepath, values, save_name):
+    if values:
+        data[str(save_name)]= values
+
+        save_data(filepath, data)
 
 
 

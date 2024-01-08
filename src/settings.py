@@ -7,17 +7,21 @@ pygame.font.init()
 
 src_dir = os.path.split(os.path.abspath(__file__))[0]
 main_dir = os.path.split(src_dir)[0]
+data_dir = os.path.join(main_dir, 'data')
 image_dir = os.path.join(main_dir, 'images')
 sound_dir = os.path.join(main_dir, 'sound_effects')
 
 
-WIDTH, HEIGHT = 450, 280
+WIDTH, HEIGHT = 430, 260
 #WIDTH, HEIGHT = 420, 420
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
 FPS = 60
 BPM = 60
+
+tolerance_1 = 60
+tolerance_2 = 110
 
 clock = pygame.time.Clock()
 

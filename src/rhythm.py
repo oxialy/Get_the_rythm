@@ -4,9 +4,11 @@ VALUE_MAPPING = {0.25 * x: 250 * x for x in range(1,16)}
 
 
 class Rhythm:
-    def __init__(self, timings, values):
+    def __init__(self, timings, values, start=0):
         self.timings = timings
         self.values = values
+
+        self.start = start
 
         self.max_points = 100 * len(values)
 
@@ -16,15 +18,24 @@ class Rhythm:
     def convert_timing_to_value(self):
         self.values.clear()
         for t1, t2 in zip(self.timings[:-1], self.timings[1:]):
-            note_value = t2 - t1
-            self.values.append(note_value)
+            note_value = t2 - abs(t1)
+            if t1 < 0:
+                self.values.append(-note_value)
+            else:
+                self.values.append(note_value)
 
-    def convert_value_to_timing(self):
+    def convert_value_to_timing(self, start_time=0):
         self.timings.clear()
-        self.timings.append(0)
-        t = 0
+
+        t = start_time
+
+        self.timings.append(start_time)
+
         for val in self.values:
-            t += val
+            if val < 0:
+                self.timings[-1] *= -1
+            #self.timings[-1] *= 1 - 2 * (val < 0)
+            t += abs(val)
             self.timings.append(t)
 
     def true_values(self, tol):
@@ -41,8 +52,7 @@ def adjust_to_true_note_value(values, tol):
 
     for val in values:
         true_val = 0
-
-        for val0 in [250 * x for x in range(1,16)] + [1000/3 * x for x in range(1,12)]:
+        for val0 in [250 * x for x in range(-4, 4)] + [1000/3 * x for x in range(-3, 3)]:
             if val0 - tol <= val <= val0 + tol:
                 true_val = val0
                 break
@@ -67,9 +77,9 @@ def convert_all_timing_to_value(rhythms):
         r.convert_timing_to_value()
 
 
-def convert_all_value_to_timing(rhythms):
+def convert_all_value_to_timing(rhythms, start_time=0):
     for r in rhythms:
-        r.convert_value_to_timing()
+        r.convert_value_to_timing(start_time)
 
 
 

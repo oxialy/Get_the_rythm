@@ -33,7 +33,7 @@ colors = {
     'seagreen1': '#106040',
     'green1': '#107720',
     'green2': '#22A038',
-    'orange1': '#802060',
+    'orange1': '#806020',
     'orange2': '#AA9227',
     'yellow1': '#A0bb10',
     'yellow2': '#AACC30',
@@ -42,6 +42,7 @@ colors = {
     'grey1': '#707070',
     'grey2': '#999999',
     'red1': '#A01010',
+    'red2': '#B42040',
     'purple1': '#600870',
     'purple2': '#901080',
     'black1': '#000000'
