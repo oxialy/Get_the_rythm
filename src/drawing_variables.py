@@ -68,8 +68,17 @@ col3 = 120, 10, 10
 col4 = 10, 120, 10
 g2 = get_gradient(col4, col3, 12)
 
-bg_color = '#101530'
-#bg_color = '#303048'
+bg_color = '#105070'
+bg_color_2 = '#A3B8CC'
+#bg_color = bg_color_2
+
+BACKGROUND_POS = (0, 0)
+BACKGROUND = pygame.Surface((WIDTH - 2 * BACKGROUND_POS[0], HEIGHT - 2 * BACKGROUND_POS[1]))
+BACKGROUND.fill(bg_color_2)
+
+
+
+
 
 
 

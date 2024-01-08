@@ -28,6 +28,7 @@ class Indicator:
         self.col = colors['purple1']
 
         self.text = text
+        self.text_col = colors['lightgrey1']
 
         self.default = default
         self.values = values
@@ -44,10 +45,32 @@ class Indicator:
         pygame.draw.rect(win, self.col, rect)
 
         if self.HOVERED:
-            pygame.draw.rect(win, colors['grey1'], rect, 3)
-
+            self.draw_hovered(win)
         if self.text:
-            write_text(win, self.text, self.pos, center=True)
+            write_text(win, self.text, self.pos, self.text_col, center=True)
+
+    def draw_hovered(self, win):
+        x, y = self.pos
+        w, h = self.size[0] + 5, self.size[1] + 5
+
+        rect = centered_rect((x,y,w,h))
+
+        pygame.draw.rect(win, colors['grey1'], rect, 3)
+
+
+
+    def scale_size(self, scale):
+        scale_x, scale_y = scale
+
+        self.size = self.size[0] * scale_x, self.size[1] * scale_y
+
+    def increase_size(self, amount):
+        increase_x, increase_y = amount
+
+        self.size = self.size[0] + increase_x, self.size[1] + increase_y
+
+    def update_rect(self):
+        pass
 
     def is_clicked(self, pos):
         x,y = self.pos

@@ -1,6 +1,10 @@
 from src import loading as load
 
 from src.settings import main_dir, image_dir, sound_dir
+from src.rhythm import Rhythm, convert_all_timing_to_value, convert_all_value_to_timing
+from src.game_variables import R1
+
+import random as rd
 
 
 all_scores = load.load_all_scores()
@@ -25,11 +29,17 @@ pattern_timings = [
     [500, 750, 500, 250, 250, 250, 250]
 ]
 
+rhythms = [Rhythm([], pattern) for pattern in pattern_timings]
 
+convert_all_value_to_timing(rhythms)
 
-patterns = [{'timings': u, 'score': v} for u,v in zip(pattern_timings, all_scores)]
+sequences_0 = [{'rhythm': r, 'score': s} for r, s in zip(rhythms, all_scores)]
 
+sequences = sequences_0.copy()
+#rd.shuffle(sequences)
 
+print(1, sequences)
+print(2, sequences[0])
 
 
 '''

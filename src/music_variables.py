@@ -8,6 +8,7 @@ pygame.mixer.init()
 
 
 TOM_A = load.load_sound('tom.wav')
+TOM_B = load.load_sound('tomB.wav')
 NOTIF_2 = load.load_sound('notif2.wav')
 
 

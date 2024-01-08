@@ -2,6 +2,7 @@
 from src import settings as sett
 from src import game_variables as GV
 from src import drawing_variables as dv
+from src import rhythm_patterns as rp
 
 from .drawing_variables import bg_color, colors
 from .visuals import all_scores
@@ -54,28 +55,48 @@ def draw_screen(win):
 
 
 def draw_screen_a(win):
+    cx, cy = (WIDTH / 2, HEIGHT / 2)
     win.fill(bg_color)
-    write_text(win, 1, (160,60))
+
+    win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
+
+    GV.BORDER_1.draw(win)
+
+    write_text(win, 1, (cx, 40), 'black')
 
     GV.option_A1.draw(win)
     GV.option_A2.draw(win)
     GV.option_A3.draw(win)
 
-    draw_test_a(win)
+    #draw_test_a(win)
 
 
 def draw_screen_b(win):
+    cx, cy = (WIDTH / 2, HEIGHT / 2)
     win.fill(bg_color)
-    write_text(win, 2, (160,60))
+    win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
+
+    write_text(win, 2, (cx, 40), 'black')
 
 
 def draw_screen_c(win):
-    current_score, score_rect = all_scores[GV.current_sequence]
+    cx, cy = (WIDTH / 2, HEIGHT / 2)
+    score_pos = (cx, cy - 20)
+    current_score, score_rect = rp.sequences[GV.current_sequence]['score']
+    score_rect = current_score.get_rect(center=score_pos)
+
+    time = GV.time - GV.start_time
 
     win.fill(bg_color)
+    win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
 
-    write_text(win, 3, (160,60))
-    win.blit(current_score, (60,60))
+    GV.BORDER_1.draw(win)
+
+    write_text(win, 3, (cx, 60), 'black')
+    win.blit(current_score, score_rect)
+    #pygame.draw.rect(win, colors['black1'], score_rect, 2)
+
+    pygame.draw.rect(win, 'orange3', (time // 17 - 80, cy - 80, 4,125))
 
 def draw_test_a(win):
     s = pygame.Surface((30,30))

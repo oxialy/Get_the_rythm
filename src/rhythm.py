@@ -1,27 +1,40 @@
 
 
-
-import pygame
-
-
 VALUE_MAPPING = {0.25 * x: 250 * x for x in range(1,16)}
 
 
-
 class Rhythm:
-    def __init__(self):
-        self.timings = []
-        self.notes = []
+    def __init__(self, timings, values):
+        self.timings = timings
+        self.values = values
 
-    def convert_timing_to_note_value(self):
-        self.notes.clear()
+        self.max_points = 100 * len(values)
+
+    def __repr__(self):
+        return repr((len(self.timings), len(self.values), self.values))
+
+    def convert_timing_to_value(self):
+        self.values.clear()
         for t1, t2 in zip(self.timings[:-1], self.timings[1:]):
             note_value = t2 - t1
+            self.values.append(note_value)
 
-            self.notes.append(note_value)
+    def convert_value_to_timing(self):
+        self.timings.clear()
+        self.timings.append(0)
+        t = 0
+        for val in self.values:
+            t += val
+            self.timings.append(t)
 
     def true_values(self, tol):
-        return adjust_to_true_note_value(self.notes, tol)
+        return adjust_to_true_note_value(self.values, tol)
+
+    def adjust_value_to_bpm(self, bpm):
+        self.values = adjust_value_to_bpm(self.values, bpm)
+
+    def adjust_timing_to_bpm(self, bpm):
+        self.timings = adjust_value_to_bpm(self.timings, bpm)
 
 def adjust_to_true_note_value(values, tol):
     new_values = []
@@ -40,9 +53,24 @@ def adjust_to_true_note_value(values, tol):
 
 def adjust_value_to_bpm(values, bpm):
     new_values = []
+    k = bpm / 60
 
     for val in values:
-        pass
+        new_val = val * k
+        new_values.append(new_val)
+
+    return new_values
+
+
+def convert_all_timing_to_value(rhythms):
+    for r in rhythms:
+        r.convert_timing_to_value()
+
+
+def convert_all_value_to_timing(rhythms):
+    for r in rhythms:
+        r.convert_value_to_timing()
+
 
 
 

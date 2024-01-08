@@ -13,6 +13,7 @@ import random
 
 from random import randrange
 
+cx, cy = WIDTH / 2, HEIGHT / 2
 
 CHOSEN_OPTION = None
 
@@ -24,24 +25,29 @@ NOTES_VALUES = {
     1/2: 500
 }
 
-current_beat = 1
+time = 0
+start_time = 0
+current_beat = 0
+current_half_beat = 15
 current_sequence = 0
-current_sequence = randrange(15)
 
-timing1 = [0, 1000, 2000, 3000]
+
 timings1 = [1000 * x for x in range(20)]
 
 player_timings = []
-R1 = player_rythm = Rhythm()
+R1 = player_rhythm = Rhythm([], [])
 
-R2 = original_rythm = Rhythm()
+R2 = original_rhythm = Rhythm([], [])
 
 #R2.timings = timing1
 
 
-option_A1 = msc.Indicator((160, 135), (80,30), 'record')
-option_A2 = msc.Indicator((160, 180), (80,30), 'calibrate')
-option_A3 = msc.Indicator((160, 225), (80,30), 'game')
+option_A1 = msc.Indicator((cx, 90), (80,30), 'record')
+option_A2 = msc.Indicator((cx, 135), (80,30), 'calibrate')
+option_A3 = msc.Indicator((cx, 180), (80,30), 'game')
+
+BORDER_1 = msc.Indicator((cx, 0), (230,22))
+BORDER_2 = msc.Indicator((cx, HEIGHT-10), (300,30))
 
 metronome_indic = msc.Indicator((WIDTH - 80, HEIGHT - 120), (30,30))
 bg_color_indic = msc.Indicator((0,0), (10,10), None, DV.bg_color, DV.gradient)

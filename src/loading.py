@@ -39,7 +39,7 @@ def load_all_scores():
     print(file_names)
 
     for name in file_names:
-        image = load_image(name)
+        image = load_image(name, -1, 1.2)
         all_scores.append(image)
 
     return all_scores

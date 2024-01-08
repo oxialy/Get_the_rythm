@@ -11,7 +11,8 @@ image_dir = os.path.join(main_dir, 'images')
 sound_dir = os.path.join(main_dir, 'sound_effects')
 
 
-WIDTH, HEIGHT = 350, 350
+WIDTH, HEIGHT = 450, 280
+#WIDTH, HEIGHT = 420, 420
 
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 
