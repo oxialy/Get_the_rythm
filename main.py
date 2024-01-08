@@ -103,7 +103,7 @@ def main_menu(win):
             anim.animate()
 
         if GV.CHOSEN_OPTION:
-            if GV.CHOSEN_OPTION in ['record', 'calibrate', 'game', 'quit'] and GV.BORDER_1.timer >= 50:
+            if GV.CHOSEN_OPTION in ['record', 'calibrate', 'game', 'quit'] and GV.BORDER_1.timer >= 68:
                 run_main = False
 
         pygame.display.update()
@@ -311,19 +311,16 @@ def game(win):
                 GV.current_beat += 1
                 t = pygame.time.get_ticks()
 
-                GV.metronome_indic.timer = 0
+                GV.metronome_indic.update_metronome()
 
                 GV.R2.timings.append(t)
                 print('otime', t, end=' ')
 
-                if len(GV.R2.timings) >= 5 and len(GV.player_timings) >= 5:
-                    GV.average_diff = GF.get_average_diff(GV.player_timings, GV.R2.timings, BPM)
-
-                    GV.CONTINUE = abs(GV.average_diff) < 80
-
                 if GV.current_beat == 8:
                     GV.current_beat = 0
                     GV.current_sequence += 1
+
+                    print('current seq', GV.current_sequence)
 
                 if GV.current_beat == 1:
                     GV.start_time = pygame.time.get_ticks()
@@ -338,25 +335,6 @@ def game(win):
                 GV.current_half_beat += 1
                 pygame.draw.rect(win, 'grey', (20,20,7,7))
 
-                if GV.current_half_beat == 16 and GV.current_sequence:
-                    pygame.draw.rect(win, 'red', (25,25,14,14))
-                    i = GV.current_sequence - 1
-
-                    rhythm = rhy.sequences[i]['rhythm']
-
-                    result, total = GF.sequence_end(GV.R1, rhythm.values)
-
-                    print(11, GV.R1.values)
-                    print(12, rhythm.values)
-                    print(total, result)
-
-                    if total == rhythm.max_points:
-                        channel_2.play(NOTIF_2)
-                        print('gg')
-
-                if GV.current_half_beat == 17:
-                    GV.R1.timings.clear()
-                    GV.current_half_beat = 1
 
 
         if pygame.mouse.get_pressed()[0]:

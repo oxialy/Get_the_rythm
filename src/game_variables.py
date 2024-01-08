@@ -42,14 +42,14 @@ R2 = original_rhythm = Rhythm([], [])
 #R2.timings = timing1
 
 
-option_A1 = msc.Indicator((cx, 90), (80,30), 'record')
-option_A2 = msc.Indicator((cx, 135), (80,30), 'calibrate')
-option_A3 = msc.Indicator((cx, 180), (80,30), 'game')
+option_A1 = msc.Indicator((cx, 90), (80,30), colors['purple1'], 'record')
+option_A2 = msc.Indicator((cx, 135), (80,30), colors['purple1'], 'calibrate')
+option_A3 = msc.Indicator((cx, 180), (80,30), colors['purple1'], 'game')
 
-BORDER_1 = msc.Indicator((cx, 0), (230,22))
-BORDER_2 = msc.Indicator((cx, HEIGHT-10), (300,30))
+BORDER_1 = msc.Indicator((cx, 0), (230,22), colors['purple1'])
+BORDER_2 = msc.Indicator((cx, HEIGHT-6), (0,12), colors['purple1'])
 
-metronome_indic = msc.Indicator((WIDTH - 80, HEIGHT - 120), (30,30))
+metronome_indic = msc.Indicator((WIDTH / 2 - 30, HEIGHT - 60), (8,8), colors['purple1'], values=[0,1,2,3])
 bg_color_indic = msc.Indicator((0,0), (10,10), None, DV.bg_color, DV.gradient)
 
 buttons_A = [option_A1, option_A2, option_A3]

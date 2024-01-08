@@ -3,6 +3,7 @@ from src import settings as sett
 from src import game_variables as GV
 from src import drawing_variables as dv
 from src import rhythm_patterns as rp
+from src import msc
 
 from .drawing_variables import bg_color, colors
 from .visuals import all_scores
@@ -61,6 +62,7 @@ def draw_screen_a(win):
     win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
 
     GV.BORDER_1.draw(win)
+    #GV.BORDER_2.draw(win)
 
     write_text(win, 1, (cx, 40), 'black')
 
@@ -81,7 +83,7 @@ def draw_screen_b(win):
 
 def draw_screen_c(win):
     cx, cy = (WIDTH / 2, HEIGHT / 2)
-    score_pos = (cx, cy - 20)
+    score_pos = (cx, cy - 10)
     current_score, score_rect = rp.sequences[GV.current_sequence]['score']
     score_rect = current_score.get_rect(center=score_pos)
 
@@ -91,10 +93,16 @@ def draw_screen_c(win):
     win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
 
     GV.BORDER_1.draw(win)
+    #GV.BORDER_2.draw(win)
 
     write_text(win, 3, (cx, 60), 'black')
     win.blit(current_score, score_rect)
     #pygame.draw.rect(win, colors['black1'], score_rect, 2)
+
+    draw_metronome(win)
+
+    if GV.metronome_indic.timer < 10 and True:
+        GV.metronome_indic.draw(win)
 
     pygame.draw.rect(win, 'orange3', (time // 17 - 80, cy - 80, 4,125))
 
@@ -125,6 +133,24 @@ def draw_note_diff(win, note_diff_list):
         col_i = max(0, min(11, col_i))
 
         pygame.draw.line(win, dv.g2[col_i], A, B, 3)
+
+
+def draw_metronome(win):
+    x, y = GV.metronome_indic.pos
+    start_x, start_y = WIDTH / 2 - 30, y
+
+    x, y = start_x, start_y
+    offset = 0
+
+    for i in range(4):
+        x, y = start_x + 20 * i, start_y
+        w, h = GV.metronome_indic.size[0] + offset, GV.metronome_indic.size[1] + offset
+        #w, h = 8, 8
+
+        rect = msc.centered_rect((x,y,w,h))
+
+        pygame.draw.rect(win, colors['darkgrey1'], rect, 1)
+
 
 def write_text(win, data, pos, col=colors['grey1'], font=FONT20, center=False, resize_limit=0):
     #font = pygame.font.SysFont('arial', 30)

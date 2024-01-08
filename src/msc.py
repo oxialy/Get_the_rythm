@@ -21,11 +21,11 @@ FONT40 = pygame.font.SysFont('arial', 40)
 
 
 class Indicator:
-    def __init__(self, pos, size, text=None, default=None, values=None):
+    def __init__(self, pos, size, col, text=None, default=None, values=None):
         self.pos = pos
         self.size = size
 
-        self.col = colors['purple1']
+        self.col = col
 
         self.text = text
         self.text_col = colors['lightgrey1']
@@ -35,6 +35,7 @@ class Indicator:
 
         self.HOVERED = False
         self.timer = 100
+        self.i = 0
 
     def draw(self, win):
         x, y = self.pos
@@ -57,7 +58,12 @@ class Indicator:
 
         pygame.draw.rect(win, colors['grey1'], rect, 3)
 
-
+    def update_metronome(self):
+        self.pos = WIDTH/2 - 30 + self.i * 20, self.pos[1]
+        self.i += 1
+        if self.i == 4:
+            self.i = 0
+        self.timer = 0
 
     def scale_size(self, scale):
         scale_x, scale_y = scale
