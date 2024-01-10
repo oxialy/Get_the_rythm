@@ -60,6 +60,7 @@ def draw_screen_a(win):
     win.fill(bg_color)
 
     win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
+    dv.BACKGROUND.fill(dv.bg_color_2)
 
     GV.BORDER_1.draw(win)
     #GV.BORDER_2.draw(win)
@@ -78,6 +79,7 @@ def draw_screen_b(win):
     cx, cy = (WIDTH / 2, HEIGHT / 2)
     win.fill(bg_color)
     win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
+    dv.BACKGROUND.fill(dv.bg_color_2)
 
     write_text(win, 'record', (cx, 60), 'black', center=True)
 
@@ -126,6 +128,7 @@ def draw_screen_e(win):
     win.fill(bg_color)
 
     win.blit(dv.BACKGROUND, dv.BACKGROUND_POS)
+    dv.BACKGROUND.fill(dv.bg_color_2)
 
     GV.BORDER_1.draw(win)
     #GV.BORDER_2.draw(win)
@@ -146,7 +149,7 @@ def draw_test_a(win):
 
 
 def draw_test_c(win):
-    write_text(win, GV.current_timing, (80, 55), '#404070')
+    write_text(win, GV.check_timing_1, (80, 55), '#404070')
     write_text(win, GV.player_score, (125, 55), '#405060')
 
 

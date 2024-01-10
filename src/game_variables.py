@@ -31,10 +31,13 @@ current_beat = 0
 current_half_beat = 15
 current_sequence = -1
 current_disp_sequence = 0
-current_timing = 0
+check_timing_1 = 0
+check_timing_2 = 0
 
 player_score = 0
 sequence_score = 0
+
+mesure_value = 4000
 
 # record mode
 chosen_save = 1
@@ -101,6 +104,7 @@ SAVE_MODE = False
 
 METRONOME_BEAT = pygame.USEREVENT
 METRONOME_HALF_BEAT = pygame.USEREVENT + 1
+SEQUENCE_TIMING = pygame.USEREVENT + 2
 
 
 

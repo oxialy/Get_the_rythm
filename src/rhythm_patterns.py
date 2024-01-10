@@ -41,6 +41,12 @@ pattern_max_points = [100 * len(ryt.timings) for ryt in rhythms]
 
 sequences_0 = [{'rhythm': ryt, 'score': score, 'max_points': max} for ryt, score, max in zip(rhythms, all_scores, pattern_max_points)]
 
+'''
+def get_sequences():
+    sequences = []
+    for ryt, score, max in zip(rhythms, all_scores, pattern_max_points):
+        sequence = {'rhythm'}'''
+
 #sequences = shuffle_sequences(sequences_0)
 sequences = sequences_0.copy()
 

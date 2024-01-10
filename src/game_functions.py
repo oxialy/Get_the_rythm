@@ -107,11 +107,12 @@ def eval_diff(diff):
     if diff < tolerance_1:
         points = 100
     elif diff < tolerance_2:
-        points = 1
+        points = 100
     else:
         points = 0
 
     return points
+
 
 
 
