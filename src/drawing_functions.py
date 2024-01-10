@@ -83,8 +83,8 @@ def draw_screen_b(win):
 
     write_text(win, 'record', (cx, 60), 'black', center=True)
 
-    GV.CONFIRM_BUTTON.draw(win)
-    GV.SAVE_BUTTON.draw(win)
+    GV.OPTION_B1.draw(win)
+    GV.OPTION_B2.draw(win)
 
     draw_metronome(win)
 

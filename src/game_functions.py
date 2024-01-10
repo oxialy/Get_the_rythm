@@ -107,11 +107,29 @@ def eval_diff(diff):
     if diff < tolerance_1:
         points = 100
     elif diff < tolerance_2:
-        points = 100
+        points = 50
     else:
         points = 0
 
     return points
+
+
+def get_max_score(sequences):
+    max_score = 0
+
+    for seq in sequences[:-2]:
+        points = seq['max_points']
+        max_score += points
+
+    return max_score
+
+
+
+
+
+
+
+
 
 
 

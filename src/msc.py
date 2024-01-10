@@ -86,10 +86,15 @@ class Indicator:
 
         self.size = self.size[0] * scale_x, self.size[1] * scale_y
 
-    def increase_size(self, amount):
+    def increase_size(self, amount, min_size, max_size):
         increase_x, increase_y = amount
+        min_x, min_y = min_size
+        max_x, max_y = max_size
 
-        self.size = self.size[0] + increase_x, self.size[1] + increase_y
+        x = self.size[0] + increase_x
+        y = self.size[1] + increase_y
+
+        self.size = max(min_x, min(max_x, x)), max(min_y, min(min_y, y))
 
     def update_text(self):
         pass

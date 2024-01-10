@@ -24,7 +24,7 @@ class Rhythm:
             else:
                 self.values.append(note_value)
 
-    def convert_value_to_timing(self, start_time=0):
+    def convert_value_to_timing(self, start_time=1):
         self.timings.clear()
 
         t = start_time
@@ -63,7 +63,7 @@ def adjust_to_true_note_value(values, tol):
 
 def adjust_value_to_bpm(values, bpm):
     new_values = []
-    k = bpm / 60
+    k = 60 / bpm
 
     for val in values:
         new_val = val * k

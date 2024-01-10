@@ -76,8 +76,8 @@ OPTION_E3 = msc.Indicator((cx, cy + 46), (80,28), colors['seagreen2'], '3')
 buttons_A = [OPTION_A1, OPTION_A2, OPTION_A3, OPTION_A4]
 buttons_E = [OPTION_E1, OPTION_E2, OPTION_E3]
 
-SAVE_BUTTON = msc.Indicator((40,40), (30,30), colors['orange1'], '1')
-CONFIRM_BUTTON = msc.Indicator((cx, cy - 10), (100,30), colors['purple1'], 'confirm')
+OPTION_B1 = msc.Indicator((40,40), (30,30), colors['orange1'], '1')
+OPTION_B2 = msc.Indicator((cx, cy - 10), (100,30), colors['purple1'], 'confirm')
 
 BORDER_1 = msc.Indicator((cx, 0), (195,21), colors['purple1'])
 BORDER_2 = msc.Indicator((cx, HEIGHT-6), (0,12), colors['purple1'])
