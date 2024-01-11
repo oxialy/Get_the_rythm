@@ -571,12 +571,14 @@ def game(win):
 
                     if GV.current_sequence == sett.number_of_sequences:
                         GV.max_score = GF.get_max_score(rhy.sequences)
-                        print(GV.max_score, round(GV.player_score * 100 / GV.max_score, 2))
+                        score_ratio = round(GV.player_score * 100 / GV.max_score)
+                        anim.initialize_score_list(GV.SCORE_INDIC, score_ratio)
+                        print(GV.max_score, score_ratio)
 
                         GV.CHOSEN_OPTION = 'score'
                         run_main = False
-
                         print('game over')
+                        pygame.time.wait(1100)
 
                     GV.sequence_score = 0
                     GV.check_timing_1 = 0
@@ -596,10 +598,13 @@ def score_screen(win):
     run_main = True
 
     GV.start_time = pygame.time.get_ticks()
+    anim.initialize_score_list(GV.SCORE_INDIC, 100)
+    GV.SCORE_INDIC.value_2 = []
 
     while run_main:
         GV.time = pygame.time.get_ticks()
         draw_screen_f(win)
+        anim.draw_graph(win, GV.SCORE_INDIC.value_2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -622,8 +627,12 @@ def score_screen(win):
                     GF.compare_rhythms(timings2, GV.timings1)
                     GV.player_timings.clear()
 
+        anim.increase_value(GV.SCORE_INDIC, 200)
+        print(GV.SCORE_INDIC)
+
         GV.metronome_indic.timer += 1
         GV.bg_color_indic.timer += 1
+        GV.SCORE_INDIC.timer += 1
 
         pygame.display.update()
         clock.tick(FPS)

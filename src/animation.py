@@ -1,9 +1,11 @@
 
 from src import game_variables as gv
 
+from src.drawing_variables import colors
 from src.settings import WIDTH, HEIGHT
 
 import pygame
+from math import pi, sin
 
 
 def increase():
@@ -36,9 +38,34 @@ def shorten():
     gv.BORDER_2.timer += 1
 
 
+def initialize_score_list(ind, score):
+    ind.text_col = colors['darkgrey1']
+    ind.values = []
+    ind.timer = 0
+    for i in range(score):
+        ind.values.append(i)
 
 
+def increase_value(ind, n):
+    k1 = pi / 200
+    k2 = len(ind.values) // 2
 
+    i = int(sin(-pi/2 + k1 * ind.timer) * k2) + k2
+
+    ind.i = i
+    ind.value_2.append(ind.values[i])
+
+    ind.text = ind.values[i]
+
+
+def draw_graph(win, values):
+    for i, val in enumerate(values):
+        x = i
+        y = val * 2
+
+        w, h = 3, 3
+
+        pygame.draw.rect(win, 'purple', (x,y,w,h))
 
 
 

@@ -43,6 +43,12 @@ class Indicator:
         self.timer = 100
         self.i = 0
 
+    def __repr__(self):
+        if self.text:
+            return repr((self.i, self.timer))
+        else:
+            return repr((self.values, self.STATE, self.timer))
+
     def draw(self, win):
         x, y = self.pos
         w, h = self.size

@@ -120,9 +120,17 @@ def draw_screen_d(win):
     if GV.metronome_indic.timer < 58 and True:
         GV.metronome_indic.draw(win)
 
-    pygame.draw.rect(win, 'orange3', (time // 17 - 80, cy - 80, 4,125))
+    draw_time_cursor(win, time)
 
     draw_test_c(dv.BACKGROUND)
+
+
+def draw_time_cursor(win, time):
+    cx, cy = (WIDTH / 2, HEIGHT / 2)
+
+    rect = msc.centered_rect((time // 17 - 80, cy - 10, 4,60))
+    pygame.draw.rect(win, colors['lightorange1'], rect)
+
 
 def draw_screen_e(win):
     cx, cy = (WIDTH / 2, HEIGHT / 2)
@@ -148,11 +156,13 @@ def draw_screen_f(win):
 
     win.fill(dv.bg_color_2)
 
-    score_ratio = round(GV.player_score * 100 / GV.max_score, 2)
+    GV.SCORE_INDIC.draw(win)
+
+    score_ratio = round(GV.player_score * 100 / GV.max_score)
 
     write_text(win, 'score', (cx, cy - 60), colors['darkgrey1'], FONT20, True)
     write_text(win, GV.player_score, (cx, cy - 15), colors['darkgrey1'], FONT20, True)
-    write_text(win, score_ratio, (cx, cy + 15), colors['darkgrey1'], FONT20, True)
+    #write_text(win, score_ratio, (cx, cy + 15), colors['darkgrey1'], FONT20, True)
 
 
 

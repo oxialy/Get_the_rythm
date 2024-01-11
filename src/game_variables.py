@@ -34,6 +34,7 @@ current_disp_sequence = 0
 check_timing_1 = 0
 check_timing_2 = 0
 
+disp_player_score = 0
 player_score = 0
 max_score = 1
 sequence_score = 0
@@ -63,15 +64,17 @@ OPTION_A1.value_2 = 1
 OPTION_A2.value_2 = 2
 OPTION_A3.value_2 = 3
 
+OPTION_B1 = msc.Indicator((40,40), (30,30), colors['orange1'], '1')
+OPTION_B2 = msc.Indicator((cx, cy - 10), (100,30), colors['purple1'], 'confirm')
+SAVED_VALUES_INDIC = msc.Indicator((WIDTH - 80, 40), (30,30), colors['darkgrey1'], 0)
+SAVED_VALUES_INDIC.value_2 = []
 
 OPTION_E1 = msc.Indicator((cx, cy - 40), (80,28), colors['seagreen2'], '1')
 OPTION_E2 = msc.Indicator((cx, cy +  3), (80,28), colors['seagreen2'], '2')
 OPTION_E3 = msc.Indicator((cx, cy + 46), (80,28), colors['seagreen2'], '3')
 
-OPTION_B1 = msc.Indicator((40,40), (30,30), colors['orange1'], '1')
-OPTION_B2 = msc.Indicator((cx, cy - 10), (100,30), colors['purple1'], 'confirm')
-SAVED_VALUES_INDIC = msc.Indicator((WIDTH - 80, 40), (30,30), colors['darkgrey1'], 0)
-SAVED_VALUES_INDIC.value_2 = []
+SCORE_INDIC = msc.Indicator((cx, cy), (1,1), colors['seagreen1'], 0)
+
 
 buttons_A = [OPTION_A1, OPTION_A2, OPTION_A3, OPTION_A4]
 buttons_B = [OPTION_B2, SAVED_VALUES_INDIC]
