@@ -143,6 +143,22 @@ def draw_screen_e(win):
     #draw_test_a(win)
 
 
+def draw_screen_f(win):
+    cx, cy = (WIDTH / 2, HEIGHT / 2)
+
+    win.fill(dv.bg_color_2)
+
+    score_ratio = round(GV.player_score * 100 / GV.max_score, 2)
+
+    write_text(win, 'score', (cx, cy - 60), colors['darkgrey1'], FONT20, True)
+    write_text(win, GV.player_score, (cx, cy - 15), colors['darkgrey1'], FONT20, True)
+    write_text(win, score_ratio, (cx, cy + 15), colors['darkgrey1'], FONT20, True)
+
+
+
+# testing
+
+
 def draw_test_a(win):
     s = pygame.Surface((30,30))
     pos = s.get_rect(center=(WIDTH/2, HEIGHT/2))

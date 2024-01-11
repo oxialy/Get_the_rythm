@@ -26,7 +26,7 @@ QUARTER_VALUE = 500 * 60 / BPM
 tolerance_1 = 60
 tolerance_2 = 110
 
-number_of_sequences = 6
+number_of_sequences = 2
 
 clock = pygame.time.Clock()
 

@@ -85,10 +85,8 @@ def get_sequences():
 sequences = shuffle_sequences(sequences_0, sett.number_of_sequences)
 #sequences = sequences_0.copy()[:sett.number_of_sequences]
 
-sequences.append(sequence_end)
+sequences.append(sequences[-1])
 
-
-print(sequences)
 
 
 '''

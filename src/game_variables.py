@@ -35,6 +35,7 @@ check_timing_1 = 0
 check_timing_2 = 0
 
 player_score = 0
+max_score = 1
 sequence_score = 0
 
 mesure_value = 4000

@@ -12,7 +12,7 @@ from src import msc
 from src import settings as sett
 from src.settings import WIDTH, HEIGHT, clock, FPS, WIN
 
-from src.drawing_functions import draw_screen, draw_screen_b, draw_screen_d
+from src.drawing_functions import draw_screen, draw_screen_b, draw_screen_d, draw_screen_f
 from src.music_variables import TOM_A, TOM_B, NOTIF_2, HI_HAT_B, HI_HAT_A
 from src.music_variables import channel_1, channel_2
 from src.settings import BPM
@@ -37,6 +37,7 @@ def init_userevent(BPM):
 def stop_userevent():
     pygame.time.set_timer(GV.METRONOME_BEAT, 0)
     pygame.time.set_timer(GV.METRONOME_HALF_BEAT, 0)
+    pygame.time.set_timer(GV.SEQUENCE_TIMING, 0)
     #pygame.time.set_timer(GV.PLAYER_BEAT, 0)
 
 
@@ -78,6 +79,8 @@ def reset_game_values():
     GV.R1.timings.clear()
     GV.all_player_timings.clear()
     GV.metronome_indic.i = 0
+
+    stop_userevent()
 
 
 def reset_sequence():
@@ -134,6 +137,9 @@ def main_menu(win):
                 if event.key == K_a:
                     print(win.get_size())
 
+                if event.key == K_SPACE:
+                    GV.CHOSEN_OPTION = 'score'
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 channel_1.play(NOTIF_2)
                 GV.hovered_button = msc.check_hovered(GV.pos, GV.buttons_A)
@@ -157,7 +163,7 @@ def main_menu(win):
                 anim.increase()
 
         if GV.CHOSEN_OPTION:
-            if GV.CHOSEN_OPTION in ['record', 'calibrate', 'game', 'quit'] and GV.BORDER_1.timer >= 68:
+            if GV.CHOSEN_OPTION in ['record', 'calibrate', 'game', 'score', 'quit'] and GV.BORDER_1.timer >= 68:
                 GV.BORDER_1.timer = 0
                 GV.BORDER_1.STATE = 1
                 run_main = False
@@ -465,7 +471,7 @@ def game(win):
                     volume_up()
 
                 if event.key == K_SPACE:
-                    print(22)
+                    GV.CHOSEN_OPTION = 'score'
 
                 if event.key == K_8:
                     GV.current_sequence = 6
@@ -498,6 +504,7 @@ def game(win):
                     GV.player_timings.clear()
 
             if event.type == GV.SEQUENCE_TIMING:
+                print(71, GV.current_sequence, rhy.sequences[GV.current_sequence]['rhythm'])
                 values = rhy.sequences[GV.current_sequence]['rhythm'].values
                 v = values[GV.check_timing_2]
 
@@ -520,7 +527,7 @@ def game(win):
                 GV.current_beat += 1
                 t = pygame.time.get_ticks()
 
-                print('otime ', t)
+                print('otime ', t - GV.start_time)
 
                 GV.metronome_indic.update_metronome()
 
@@ -544,6 +551,8 @@ def game(win):
                     pygame.time.set_timer(GV.SEQUENCE_TIMING, sett.tolerance_2)
 
             if event.type == GV.METRONOME_HALF_BEAT:
+                t = pygame.time.get_ticks()
+                print('half beat', t - GV.start_time, GV.current_half_beat, GV.current_beat)
                 GV.current_half_beat += 1
                 pygame.draw.rect(win, '#606099', (20,20,10,10))
 
@@ -561,9 +570,10 @@ def game(win):
                     GV.current_sequence += 1
 
                     if GV.current_sequence == sett.number_of_sequences:
-                        max_score = GF.get_max_score(rhy.sequences)
-                        print(max_score, GV.player_score * 100 / max_score)
+                        GV.max_score = GF.get_max_score(rhy.sequences)
+                        print(GV.max_score, round(GV.player_score * 100 / GV.max_score, 2))
 
+                        GV.CHOSEN_OPTION = 'score'
                         run_main = False
 
                         print('game over')
@@ -585,12 +595,11 @@ def score_screen(win):
 
     run_main = True
 
-    #channel_1.play(TOM_A)
     GV.start_time = pygame.time.get_ticks()
 
     while run_main:
         GV.time = pygame.time.get_ticks()
-        draw_screen_d(win)
+        draw_screen_f(win)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -607,36 +616,6 @@ def score_screen(win):
 
                 if event.key == K_s:
                     volume_up()
-
-                if event.key == K_SPACE:
-                    print(22)
-
-                if event.key == K_BACKSPACE:
-                    if GV.CONTINUE:
-                        GV.TEST_COMPLETE = True
-                    else:
-                        GV.bg_color_indic.timer = 0
-
-                if event.key in [K_f, K_j]:
-                    t = pygame.time.get_ticks()
-                    timings = rhy.sequences[GV.current_sequence]['rhythm'].timings
-
-                    GV.R1.timings.append(t)
-
-                    if GV.check_timing_1 != len(timings):
-                        if timings[GV.check_timing_1] < 0:
-                            GV.check_timing_1 += 1
-
-                        diff = abs(t - GV.start_time - timings[GV.check_timing_1])
-                        points = GF.eval_diff(diff)
-
-                        print(31, t - GV.start_time - timings[GV.check_timing_1])
-                        print(32, timings, GV.check_timing_1, len(timings))
-
-                        if points:
-                            GV.sequence_score += points
-                            GV.player_score += points
-                            GV.check_timing_1 += 1
 
                 if event.key == K_RETURN:
                     timings2 = GF.synchronized(GV.player_timings)
@@ -676,12 +655,13 @@ def main(win):
             if GV.CHOSEN_OPTION not in ['back', 'quit']:
                 game(win)
 
+        if GV.CHOSEN_OPTION == 'score':
+            score_screen(win)
 
         reset_game_values()
 
         if GV.CHOSEN_OPTION == 'quit':
             run_main = False
-
 
         GV.CHOSEN_OPTION = None
 
