@@ -3,7 +3,6 @@ import os.path
 from src import drawing_functions as DF
 from src import game_functions as GF
 from src import game_variables as GV
-from src import music_variables as MV
 from src import rhythm_patterns as rhy
 from src import animation as anim
 from src import logs
@@ -18,10 +17,9 @@ from src.music_variables import channel_1, channel_2
 from src.settings import BPM
 
 import pygame
-import random
+import random as rd
 
 from pygame.locals import *
-from random import randrange, choice
 
 
 # need separate directory  v
@@ -490,9 +488,6 @@ def game(win):
                         diff = abs(t - GV.start_time - timings[GV.check_timing_1])
                         points = GF.eval_diff(diff)
 
-                        print(31, t - GV.start_time - timings[GV.check_timing_1])
-                        print(32, timings, GV.check_timing_1, len(timings))
-
                         if points:
                             GV.sequence_score += points
                             GV.player_score += points
@@ -504,7 +499,6 @@ def game(win):
                     GV.player_timings.clear()
 
             if event.type == GV.SEQUENCE_TIMING:
-                print(71, GV.current_sequence, rhy.sequences[GV.current_sequence]['rhythm'])
                 values = rhy.sequences[GV.current_sequence]['rhythm'].values
                 v = values[GV.check_timing_2]
 
@@ -527,8 +521,6 @@ def game(win):
                 GV.current_beat += 1
                 t = pygame.time.get_ticks()
 
-                print('otime ', t - GV.start_time)
-
                 GV.metronome_indic.update_metronome()
 
                 GV.R2.timings.append(t)
@@ -540,7 +532,7 @@ def game(win):
                     print('current seq', GV.current_sequence)
 
                 if GV.current_beat == 1:
-                    GV.start_time = pygame.time.get_ticks()
+                    GV.start_time = t
 
                 if GV.current_beat in [1, 5]:
                     channel_1.play(TOM_B)
@@ -552,7 +544,6 @@ def game(win):
 
             if event.type == GV.METRONOME_HALF_BEAT:
                 t = pygame.time.get_ticks()
-                print('half beat', t - GV.start_time, GV.current_half_beat, GV.current_beat)
                 GV.current_half_beat += 1
                 pygame.draw.rect(win, '#606099', (20,20,10,10))
 
@@ -572,12 +563,12 @@ def game(win):
                     if GV.current_sequence == sett.number_of_sequences:
                         GV.max_score = GF.get_max_score(rhy.sequences)
                         score_ratio = round(GV.player_score * 100 / GV.max_score)
-                        anim.initialize_score_list(GV.SCORE_INDIC, score_ratio)
+                        anim.initialize_score_indicator(GV.SCORE_INDIC, score_ratio)
+
                         print(GV.max_score, score_ratio)
 
                         GV.CHOSEN_OPTION = 'score'
                         run_main = False
-                        print('game over')
                         pygame.time.wait(1100)
 
                     GV.sequence_score = 0
@@ -598,13 +589,12 @@ def score_screen(win):
     run_main = True
 
     GV.start_time = pygame.time.get_ticks()
-    anim.initialize_score_list(GV.SCORE_INDIC, 100)
     GV.SCORE_INDIC.value_2 = []
 
     while run_main:
         GV.time = pygame.time.get_ticks()
         draw_screen_f(win)
-        anim.draw_graph(win, GV.SCORE_INDIC.value_2)
+        #anim.draw_graph(win, GV.SCORE_INDIC.value_2)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -627,12 +617,10 @@ def score_screen(win):
                     GF.compare_rhythms(timings2, GV.timings1)
                     GV.player_timings.clear()
 
-        anim.increase_value(GV.SCORE_INDIC, 200)
-        print(GV.SCORE_INDIC)
+        anim.increase_value(GV.SCORE_INDIC, 330)
 
-        GV.metronome_indic.timer += 1
-        GV.bg_color_indic.timer += 1
-        GV.SCORE_INDIC.timer += 1
+        if GV.SCORE_INDIC.timer < 330:
+            GV.SCORE_INDIC.timer += 1
 
         pygame.display.update()
         clock.tick(FPS)

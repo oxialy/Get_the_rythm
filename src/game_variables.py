@@ -73,7 +73,7 @@ OPTION_E1 = msc.Indicator((cx, cy - 40), (80,28), colors['seagreen2'], '1')
 OPTION_E2 = msc.Indicator((cx, cy +  3), (80,28), colors['seagreen2'], '2')
 OPTION_E3 = msc.Indicator((cx, cy + 46), (80,28), colors['seagreen2'], '3')
 
-SCORE_INDIC = msc.Indicator((cx, cy), (1,1), colors['seagreen1'], 0)
+SCORE_INDIC = msc.Indicator((cx, cy + 10), (1,1), colors['seagreen1'], 0)
 
 
 buttons_A = [OPTION_A1, OPTION_A2, OPTION_A3, OPTION_A4]

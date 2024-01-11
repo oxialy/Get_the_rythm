@@ -38,19 +38,21 @@ def shorten():
     gv.BORDER_2.timer += 1
 
 
-def initialize_score_list(ind, score):
+def initialize_score_indicator(ind, score):
     ind.text_col = colors['darkgrey1']
     ind.values = []
     ind.timer = 0
-    for i in range(score):
+    for i in range(score + 1):
         ind.values.append(i)
+        if i > 2 * score // 3:
+            ind.values.append(i)
 
 
 def increase_value(ind, n):
-    k1 = pi / 200
+    k1 = pi / n
     k2 = len(ind.values) // 2
 
-    i = int(sin(-pi/2 + k1 * ind.timer) * k2) + k2
+    i = int(sin(-pi/2 + k1 * ind.timer) * k2) + k2 - (len(ind.values) + 1) % 2
 
     ind.i = i
     ind.value_2.append(ind.values[i])
