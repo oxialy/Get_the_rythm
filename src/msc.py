@@ -36,6 +36,7 @@ class Indicator:
         self.default = default
         self.values = values
         self.value_2 = None
+        self.value_3 = []
 
         self.STATE = 0
         self.HOVERED = False
@@ -52,7 +53,7 @@ class Indicator:
 
         if self.HOVERED:
             self.draw_hovered(win)
-        if self.text:
+        if self.text is not None:
             write_text(win, self.text, self.pos, self.text_col, self.font, True)
 
     def draw_hovered(self, win):
@@ -66,13 +67,26 @@ class Indicator:
         if self.value_2:
             self.draw_hovered_value(win)
 
+        if self.value_3:
+            self.draw_hovered_list(win)
+
     def draw_hovered_value(self, win):
         x, y = self.pos[0] - 70, self.pos[1]
         w, h = 18,18
 
         rect = centered_rect((x,y,w,h))
         pygame.draw.rect(win, colors['grey1'], rect)
-        write_text(win, self.value_2, (x,y), 'black', FONT15, True)
+        write_text(win, self.value_2, (x,y), 'black', FONT10, True)
+
+    def draw_hovered_list(self, win):
+        for i, val in enumerate(self.value_3):
+            x, y = self.pos[0], self.pos[1] + 30 + 25 * i
+            w, h = 100, 18
+            rect = centered_rect((x,y,w,h))
+
+            pygame.draw.rect(win, colors['darkgrey1'], rect)
+            write_text(win, val, (x, y), 'black', FONT15, True)
+
 
     def update_metronome(self):
         self.pos = WIDTH/2 - 30 + self.i * 20, self.pos[1]
@@ -80,6 +94,10 @@ class Indicator:
         if self.i == 4:
             self.i = 0
         self.timer = 0
+
+    def update_value_3(self, values):
+        self.value_3 = values
+        self.text = len(self.value_3)
 
     def scale_size(self, scale):
         scale_x, scale_y = scale

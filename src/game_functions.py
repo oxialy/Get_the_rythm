@@ -117,7 +117,7 @@ def eval_diff(diff):
 def get_max_score(sequences):
     max_score = 0
 
-    for seq in sequences[:-2]:
+    for seq in sequences[:-1]:
         points = seq['max_points']
         max_score += points
 

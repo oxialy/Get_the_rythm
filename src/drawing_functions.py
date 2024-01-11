@@ -85,6 +85,7 @@ def draw_screen_b(win):
 
     GV.OPTION_B1.draw(win)
     GV.OPTION_B2.draw(win)
+    GV.SAVED_VALUES_INDIC.draw(win)
 
     draw_metronome(win)
 

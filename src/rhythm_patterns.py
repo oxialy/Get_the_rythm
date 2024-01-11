@@ -23,6 +23,16 @@ def shuffle_sequences(sequences, n):
     return new_sequences[:n]
 
 
+def get_max_point(rhythm):
+    max_point = 0
+
+    for t in rhythm.timings:
+        if t >= 0:
+            max_point += 100
+
+    return max_point
+
+
 all_scores = load.load_all_scores()
 
 start_time = 4000 * 60 / sett.BPM
@@ -52,8 +62,8 @@ rhythms = [Rhythm([], pattern) for pattern in pattern_values]
 adjust_all_to_bpm(rhythms)
 convert_all_value_to_timing(rhythms, start_time)
 
+pattern_max_points = [get_max_point(ryt) for ryt in rhythms]
 
-pattern_max_points = [100 * len(ryt.timings) for ryt in rhythms]
 
 sequences_0 = [{'rhythm': ryt, 'score': score, 'max_points': max} for ryt, score, max in zip(rhythms, all_scores, pattern_max_points)]
 

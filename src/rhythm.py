@@ -52,7 +52,7 @@ def adjust_to_true_note_value(values, tol):
 
     for val in values:
         true_val = 0
-        for val0 in [250 * x for x in range(-4, 4)] + [1000/3 * x for x in range(-3, 3)]:
+        for val0 in [250 * x for x in range(-4, 5)] + [1000/3 * x for x in range(-3, 4)]:
             if val0 - tol <= val <= val0 + tol:
                 true_val = val0
                 break

@@ -53,12 +53,6 @@ R2 = original_rhythm = Rhythm([], [])
 
 all_player_timings = []
 
-'''
-OPTION_A1 = msc.Indicator((cx, cy - 65), (80,30), colors['purple1'], 'record')
-OPTION_A2 = msc.Indicator((cx, cy - 20), (80,30), colors['purple1'], 'calibrate')
-OPTION_A3 = msc.Indicator((cx, cy + 25), (80,30), colors['purple1'], 'game')
-OPTION_A4 = msc.Indicator((cx, cy + 70), (80,30), colors['purple1'], 'quit')'''
-
 OPTION_A1 = msc.Indicator((cx, cy - 65), (80,29), colors['purple1'], 'record')
 OPTION_A2 = msc.Indicator((cx, cy - 26), (80,29), colors['purple1'], 'calibrate')
 OPTION_A3 = msc.Indicator((cx, cy + 13), (80,29), colors['purple1'], 'game')
@@ -73,11 +67,15 @@ OPTION_E1 = msc.Indicator((cx, cy - 40), (80,28), colors['seagreen2'], '1')
 OPTION_E2 = msc.Indicator((cx, cy +  3), (80,28), colors['seagreen2'], '2')
 OPTION_E3 = msc.Indicator((cx, cy + 46), (80,28), colors['seagreen2'], '3')
 
-buttons_A = [OPTION_A1, OPTION_A2, OPTION_A3, OPTION_A4]
-buttons_E = [OPTION_E1, OPTION_E2, OPTION_E3]
-
 OPTION_B1 = msc.Indicator((40,40), (30,30), colors['orange1'], '1')
 OPTION_B2 = msc.Indicator((cx, cy - 10), (100,30), colors['purple1'], 'confirm')
+SAVED_VALUES_INDIC = msc.Indicator((WIDTH - 80, 40), (30,30), colors['darkgrey1'], 0)
+SAVED_VALUES_INDIC.value_2 = []
+
+buttons_A = [OPTION_A1, OPTION_A2, OPTION_A3, OPTION_A4]
+buttons_B = [OPTION_B2, SAVED_VALUES_INDIC]
+buttons_E = [OPTION_E1, OPTION_E2, OPTION_E3]
+
 
 BORDER_1 = msc.Indicator((cx, 0), (195,21), colors['purple1'])
 BORDER_2 = msc.Indicator((cx, HEIGHT-6), (0,12), colors['purple1'])
