@@ -50,6 +50,8 @@ timings1 = [1000 * x for x in range(20)]
 
 player_timings = []
 R1 = player_rhythm = Rhythm([], [])
+left = Rhythm([], [])
+right = Rhythm([], [])
 
 R2 = original_rhythm = Rhythm([], [])
 

@@ -64,6 +64,7 @@ def volume_up():
 def reset_game_values():
     #GV.BORDER_1.size = (195, 22)
     GV.BORDER_1.timer = 0
+    GV.BORDER_1.STATE = 1
 
     GV.player_score = 0
     GV.sequence_score = 0
@@ -74,7 +75,7 @@ def reset_game_values():
     GV.current_half_beat = 15
     GV.check_timing_2 = 1
 
-    GV.R1.timings.clear()
+    GV.left.timings.clear()
     GV.all_player_timings.clear()
     GV.metronome_indic.i = 0
 
@@ -89,7 +90,7 @@ def reset_sequence():
     GV.check_timing_2 = 0
     GV.start_time = pygame.time.get_ticks()
 
-    GV.R1.timings.clear()
+    GV.left.timings.clear()
     GV.all_player_timings.clear()
     GV.metronome_indic.i = 0
 
@@ -145,6 +146,7 @@ def main_menu(win):
                     GV.CHOSEN_OPTION = GV.hovered_button.text
                     if GV.CHOSEN_OPTION == 'game':
                         GV.BORDER_1.timer = 0
+                        GV.BORDER_1.STATE = 0
 
         if GV.hovered_button:
             GV.hovered_button.HOVERED = False
@@ -268,11 +270,11 @@ def recorder(win):
 
                 if event.key in [K_f]:
                     t = pygame.time.get_ticks()
-                    GV.R1.timings.append(t)
+                    GV.left.timings.append(t)
 
                 if event.key == [K_j]:
                     t = pygame.time.get_ticks()
-                    GV.R1.timings.append(-t)
+                    GV.left.timings.append(-t)
 
                 if event.key == K_m:
                     mute_all()
@@ -299,10 +301,10 @@ def recorder(win):
                     print(61, 'space', GV.OPTION_B1.col, GV.OPTION_B1.STATE)
 
                 if event.key == K_RETURN:
-                    GV.R1.convert_timing_to_value()
-                    print(67, GV.R1.values)
+                    GV.left.convert_timing_to_value()
+                    print(67, GV.left.values)
 
-                    values = GV.R1.true_values(95)
+                    values = GV.left.true_values(95)
                     GV.saved_values.append(values)
                     GV.SAVED_VALUES_INDIC.update_value_3(GV.saved_values)
 
@@ -313,7 +315,7 @@ def recorder(win):
                     if 0 in values:
                         channel_1.play(NOTIF_2)
 
-                    GV.R1.timings.clear()
+                    GV.left.timings.clear()
 
             if event.type == GV.METRONOME_BEAT:
                 t = pygame.time.get_ticks()
@@ -382,11 +384,11 @@ def calibrate(win):
                     print(t)
                     GV.player_timings.append(t)
 
-                    timings1 = GV.R1.timings
-                    values1 = GV.R1.values
+                    timings1 = GV.left.timings
+                    values1 = GV.left.values
 
                     timings1.append(t)
-                    GV.R1.convert_timing_to_value()
+                    GV.left.convert_timing_to_value()
 
                     n = len(values1[-5:])
                     s = sum(values1[-5:])
@@ -479,7 +481,7 @@ def game(win):
                     t = pygame.time.get_ticks()
                     timings = rhy.sequences[GV.current_sequence]['rhythm'].timings
 
-                    GV.R1.timings.append(t)
+                    GV.left.timings.append(t)
 
                     if GV.check_timing_1 != len(timings):
                         if timings[GV.check_timing_1] < 0:
@@ -553,10 +555,10 @@ def game(win):
                     if GV.sequence_score == seq['max_points']:
                         channel_2.play(NOTIF_2)
                         print('gg')
-
+    
                 if GV.current_half_beat == 17:
-                    GV.all_player_timings.append(GV.R1.timings)
-                    GV.R1.timings.clear()
+                    GV.all_player_timings.append(GV.left.timings)
+                    GV.left.timings.clear()
 
                     GV.current_sequence += 1
 
